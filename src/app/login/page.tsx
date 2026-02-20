@@ -29,6 +29,7 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     // Redirect if already logged in
     useEffect(() => {
@@ -37,15 +38,31 @@ export default function LoginPage() {
         }
     }, [isLoggedIn, router]);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoggingIn(true);
+        setError(null);
 
-        // Simulate a small delay for premium feel
-        setTimeout(() => {
-            login();
-            router.push('/discover');
-        }, 1200);
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                login(data.user);
+                router.push('/discover');
+            } else {
+                setError(data.error || 'Login failed. Please try again.');
+                setIsLoggingIn(false);
+            }
+        } catch (err) {
+            setError('Something went wrong. Please check your connection.');
+            setIsLoggingIn(false);
+        }
     };
 
     // Don't render the page if already logged in
@@ -88,6 +105,12 @@ export default function LoginPage() {
                                 <p className="text-sm text-slate-400">Sign in to your account</p>
                             </div>
 
+                            {error && (
+                                <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-xs text-rose-400 text-center animate-in fade-in slide-in-from-top-2">
+                                    {error}
+                                </div>
+                            )}
+
                             <form onSubmit={handleSubmit} className="space-y-5">
                                 <div>
                                     <label className="block text-xs font-medium text-slate-300 mb-2">Email</label>
@@ -118,8 +141,12 @@ export default function LoginPage() {
                                     />
                                 </div>
 
-                                <button type="submit" className="w-full btn-primary py-3 font-bold text-sm">
-                                    Sign In
+                                <button
+                                    type="submit"
+                                    disabled={isLoggingIn}
+                                    className="w-full btn-primary py-3 font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {isLoggingIn ? 'Signing In...' : 'Sign In'}
                                 </button>
                             </form>
 

@@ -32,6 +32,8 @@ export default function RegisterPage() {
         password: '',
         confirmPassword: ''
     });
+    const [isRegistering, setIsRegistering] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     // Redirect if already logged in
     useEffect(() => {
@@ -40,9 +42,39 @@ export default function RegisterPage() {
         }
     }, [isLoggedIn, router]);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Registering with:', formData);
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        setIsRegistering(true);
+        setError(null);
+
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                    fullName: formData.fullName,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                router.push('/login?registered=true');
+            } else {
+                setError(data.error || 'Registration failed');
+                setIsRegistering(false);
+            }
+        } catch (err) {
+            setError('Something went wrong');
+            setIsRegistering(false);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +120,12 @@ export default function RegisterPage() {
                                 </h1>
                                 <p className="text-sm text-slate-400">Create your free account today</p>
                             </div>
+
+                            {error && (
+                                <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-[11px] text-rose-400 text-center animate-in fade-in slide-in-from-top-2">
+                                    {error}
+                                </div>
+                            )}
 
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div className="grid grid-cols-1 gap-4">
@@ -151,8 +189,12 @@ export default function RegisterPage() {
                                     </label>
                                 </div>
 
-                                <button type="submit" className="w-full btn-primary py-3 font-bold text-sm mt-2">
-                                    Create Account
+                                <button
+                                    type="submit"
+                                    disabled={isRegistering}
+                                    className="w-full btn-primary py-3 font-bold text-sm mt-2 disabled:opacity-50"
+                                >
+                                    {isRegistering ? 'Creating Account...' : 'Create Account'}
                                 </button>
                             </form>
 
