@@ -82,7 +82,7 @@ export default function LoginPage() {
                     <div className="lg:fixed lg:top-0 lg:right-0 lg:w-[35%] lg:h-screen lg:px-8 lg:pt-20 flex flex-col items-center justify-center">
                         <div className="w-full max-w-[360px] glass-panel p-8 shadow-2xl border border-white/10">
                             <div className="text-center mb-8">
-                                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400 mb-1.5">
+                                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400 mb-1.5">
                                     Welcome Back
                                 </h1>
                                 <p className="text-sm text-slate-400">Sign in to your account</p>
@@ -95,7 +95,7 @@ export default function LoginPage() {
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500 transition-colors placeholder:text-slate-600 outline-none"
+                                        className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-rose-500 transition-colors placeholder:text-slate-600 outline-none text-white"
                                         placeholder="email@example.com"
                                         required
                                     />
@@ -104,7 +104,7 @@ export default function LoginPage() {
                                 <div>
                                     <div className="flex justify-between mb-2">
                                         <label className="block text-xs font-medium text-slate-300">Password</label>
-                                        <Link href="#" className="text-[11px] text-violet-400 hover:text-violet-300">
+                                        <Link href="#" className="text-[11px] text-rose-400 hover:text-rose-300">
                                             Forgot?
                                         </Link>
                                     </div>
@@ -112,7 +112,7 @@ export default function LoginPage() {
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500 transition-colors placeholder:text-slate-600 outline-none"
+                                        className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-rose-500 transition-colors placeholder:text-slate-600 outline-none text-white"
                                         placeholder="••••••••"
                                         required
                                     />
@@ -146,7 +146,7 @@ export default function LoginPage() {
 
                             <p className="mt-10 text-center text-slate-400 text-sm">
                                 New here?{' '}
-                                <Link href="/register" className="text-violet-400 hover:text-violet-300 font-bold">
+                                <Link href="/register" className="text-rose-400 hover:text-rose-300 font-bold">
                                     Join Now
                                 </Link>
                             </p>

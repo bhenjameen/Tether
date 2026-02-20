@@ -83,7 +83,7 @@ export default function RegisterPage() {
                     <div className="lg:fixed lg:top-0 lg:right-0 lg:w-[35%] lg:h-screen lg:px-8 lg:pt-20 flex flex-col items-center justify-center">
                         <div className="w-full max-w-[380px] glass-panel p-8 shadow-2xl border border-white/10">
                             <div className="text-center mb-6">
-                                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400 mb-1.5">
+                                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400 mb-1.5">
                                     Join Community
                                 </h1>
                                 <p className="text-sm text-slate-400">Create your free account today</p>
@@ -98,7 +98,7 @@ export default function RegisterPage() {
                                             type="text"
                                             value={formData.fullName}
                                             onChange={handleChange}
-                                            className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500 transition-colors placeholder:text-slate-600 outline-none"
+                                            className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-rose-500 transition-colors placeholder:text-slate-600 outline-none text-white"
                                             placeholder="Full Name"
                                             required
                                         />
@@ -110,7 +110,7 @@ export default function RegisterPage() {
                                             type="email"
                                             value={formData.email}
                                             onChange={handleChange}
-                                            className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500 transition-colors placeholder:text-slate-600 outline-none"
+                                            className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-rose-500 transition-colors placeholder:text-slate-600 outline-none text-white"
                                             placeholder="email@example.com"
                                             required
                                         />
@@ -125,7 +125,7 @@ export default function RegisterPage() {
                                             type="password"
                                             value={formData.password}
                                             onChange={handleChange}
-                                            className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500 transition-colors placeholder:text-slate-600 outline-none"
+                                            className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-rose-500 transition-colors placeholder:text-slate-600 outline-none text-white"
                                             placeholder="••••••••"
                                             required
                                         />
@@ -137,7 +137,7 @@ export default function RegisterPage() {
                                             type="password"
                                             value={formData.confirmPassword}
                                             onChange={handleChange}
-                                            className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500 transition-colors placeholder:text-slate-600 outline-none"
+                                            className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-rose-500 transition-colors placeholder:text-slate-600 outline-none text-white"
                                             placeholder="••••••••"
                                             required
                                         />
@@ -145,7 +145,7 @@ export default function RegisterPage() {
                                 </div>
 
                                 <div className="flex items-center gap-2 py-1">
-                                    <input type="checkbox" id="terms" className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-violet-600 focus:ring-violet-500" required />
+                                    <input type="checkbox" id="terms" className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-rose-600 focus:ring-rose-500" required />
                                     <label htmlFor="terms" className="text-xs text-slate-400">
                                         I agree to the <Link href="#" className="underline">Terms & Conditions</Link>
                                     </label>
@@ -158,7 +158,7 @@ export default function RegisterPage() {
 
                             <p className="mt-8 text-center text-slate-400 text-sm">
                                 Already have an account?{' '}
-                                <Link href="/login" className="text-violet-400 hover:text-violet-300 font-bold">
+                                <Link href="/login" className="text-rose-400 hover:text-rose-300 font-bold">
                                     Sign In
                                 </Link>
                             </p>

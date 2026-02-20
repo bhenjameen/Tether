@@ -83,7 +83,7 @@ export default function ProfileModal({ profile, isOpen, onClose }: ProfileModalP
                                     </span>
                                 )}
                             </div>
-                            <p className="text-violet-400 font-medium flex items-center gap-2">
+                            <p className="text-rose-400 font-medium flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
@@ -128,7 +128,7 @@ export default function ProfileModal({ profile, isOpen, onClose }: ProfileModalP
                                 onClick={() => handleProtectedAction(() => router.push('/messages'))}
                                 className="py-3 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl font-bold text-white transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-violet-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-rose-400">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a.598.598 0 0 1-.474-.065.598.598 0 0 1-.25-.353 7.72 7.72 0 0 0 1.282-3.648C4.162 15.39 3 13.804 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
                                 </svg>
                                 Chat
@@ -137,14 +137,14 @@ export default function ProfileModal({ profile, isOpen, onClose }: ProfileModalP
                                 onClick={() => handleProtectedAction(() => router.push(`/profile/${profile.name.toLowerCase().replace(/ /g, '-')}`))}
                                 className="py-3 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl font-bold text-white transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-pink-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-amber-500">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                                 </svg>
                                 Profile
                             </button>
                             <button
                                 onClick={() => handleProtectedAction(() => showToast("Liked!", "success"))}
-                                className="py-3 btn-primary rounded-xl font-bold text-white shadow-lg shadow-violet-500/20 active:scale-95 flex items-center justify-center gap-2 text-sm"
+                                className="py-3 btn-primary rounded-xl font-bold text-white shadow-lg shadow-rose-500/20 active:scale-95 flex items-center justify-center gap-2 text-sm"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 text-white">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />

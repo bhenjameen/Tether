@@ -6,14 +6,14 @@
   /* Slate 900 */
   --foreground: #f8fafc;
   /* Slate 50 */
-  --primary: #8b5cf6;
-  /* Violet 500 */
-  --primary-hover: #7c3aed;
-  /* Violet 600 */
-  --secondary: #ec4899;
-  /* Pink 500 */
-  --accent: #06b6d4;
-  /* Cyan 500 */
+  --primary: #E65A5A;
+  /* Muted Rose Coral */
+  --primary-hover: #D44E4E;
+  /* Darker Rose */
+  --secondary: #DDA83B;
+  /* Gold Amber */
+  --accent: #F59E0B;
+  /* Amber */
   --card-bg: rgba(30, 41, 59, 0.7);
   /* Slate 800 with opacity */
   --border: rgba(255, 255, 255, 0.1);
@@ -49,12 +49,12 @@ body {
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px 0 rgba(139, 92, 246, 0.5);
+  box-shadow: 0 4px 14px 0 rgba(230, 90, 90, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 rgba(139, 92, 246, 0.6);
+  box-shadow: 0 6px 20px 0 rgba(230, 90, 90, 0.4);
 }
 
 h1,
@@ -98,9 +98,17 @@ button svg {
 
 /* Animations */
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .animate-float {

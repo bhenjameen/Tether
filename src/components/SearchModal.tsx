@@ -56,7 +56,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         <select
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
-                            className="w-full bg-slate-900 border border-white/5 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-violet-500 transition-colors text-slate-300"
+                            className="w-full bg-slate-900 border border-white/5 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-rose-500 transition-colors text-slate-300"
                         >
                             {LOCATIONS.map(loc => <option key={loc} value={loc}>{loc}</option>)}
                         </select>
@@ -71,7 +71,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                                     key={range}
                                     onClick={() => setAgeRange(range)}
                                     className={`px-3 py-1.5 rounded-xl text-[11px] font-medium border transition-all ${ageRange === range
-                                        ? 'bg-violet-600/20 border-violet-500/50 text-violet-300'
+                                        ? 'bg-rose-600/20 border-rose-500/50 text-rose-300'
                                         : 'bg-slate-900 border-white/5 text-slate-400 hover:bg-white/5'}`}
                                 >
                                     {range}
@@ -89,7 +89,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                                     key={g}
                                     onClick={() => setGender(g)}
                                     className={`flex-1 py-1.5 rounded-xl text-[11px] font-medium border transition-all capitalize ${gender === g
-                                        ? 'bg-violet-600/20 border-violet-500/50 text-violet-300'
+                                        ? 'bg-rose-600/20 border-rose-500/50 text-rose-300'
                                         : 'bg-slate-900 border-white/5 text-slate-400 hover:bg-white/5'}`}
                                 >
                                     {g}
@@ -106,7 +106,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         </div>
                         <button
                             onClick={() => setPhotoOnly(!photoOnly)}
-                            className={`w-9 h-5 rounded-full transition-colors relative flex items-center px-1 ${photoOnly ? 'bg-violet-600' : 'bg-slate-700'}`}
+                            className={`w-9 h-5 rounded-full transition-colors relative flex items-center px-1 ${photoOnly ? 'bg-rose-600' : 'bg-slate-700'}`}
                         >
                             <div className={`w-3 h-3 bg-white rounded-full transition-all shadow-sm ${photoOnly ? 'translate-x-4' : 'translate-x-0'}`} />
                         </button>
@@ -114,7 +114,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
                     <button
                         onClick={handleSearch}
-                        className="w-full py-3 bg-gradient-to-r from-violet-600 to-pink-600 rounded-xl font-bold text-white shadow-lg shadow-violet-500/20 hover:scale-[1.02] active:scale-95 transition-all text-sm mt-2"
+                        className="w-full py-3 bg-gradient-to-r from-rose-600 to-amber-600 rounded-xl font-bold text-white shadow-lg shadow-rose-500/20 hover:scale-[1.02] active:scale-95 transition-all text-sm mt-2"
                     >
                         Search Profiles
                     </button>

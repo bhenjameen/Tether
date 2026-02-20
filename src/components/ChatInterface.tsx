@@ -87,14 +87,14 @@ export default function ChatInterface() {
                                             </span>
                                         )}
                                     </h3>
-                                    <span className={`text-[10px] ${user.unread ? 'text-violet-400 font-bold' : 'text-slate-500'}`}>{user.time}</span>
+                                    <span className={`text-[10px] ${user.unread ? 'text-rose-400 font-bold' : 'text-slate-500'}`}>{user.time}</span>
                                 </div>
                                 <div className="flex justify-between items-center gap-2">
                                     <p className={`text-sm truncate ${user.unread ? 'text-slate-200 font-medium' : 'text-slate-500'}`}>
                                         {user.lastMsg}
                                     </p>
                                     {user.unread && (
-                                        <span className="w-2 h-2 bg-violet-500 rounded-full flex-shrink-0 shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
+                                        <span className="w-2 h-2 bg-rose-500 rounded-full flex-shrink-0 shadow-[0_0_8px_rgba(230,90,90,0.5)]" />
                                     )}
                                 </div>
                             </div>
@@ -126,7 +126,7 @@ export default function ChatInterface() {
                     {messages.map((msg) => (
                         <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}>
                             <div className={`max-w-[75%] rounded-2xl px-5 py-3 ${msg.isMe
-                                ? 'bg-violet-600 text-white rounded-br-none'
+                                ? 'bg-rose-600 text-white rounded-br-none'
                                 : 'bg-slate-700/50 text-slate-100 rounded-bl-none'
                                 }`}>
                                 {msg.text && <p>{msg.text}</p>}
@@ -135,7 +135,7 @@ export default function ChatInterface() {
                                         <Image src={msg.image} alt="Sent image" fill className="object-cover" />
                                     </div>
                                 )}
-                                <p className={`text-[10px] mt-1 opacity-70 ${msg.isMe ? 'text-violet-200' : 'text-slate-400'}`}>
+                                <p className={`text-[10px] mt-1 opacity-70 ${msg.isMe ? 'text-rose-200' : 'text-slate-400'}`}>
                                     {msg.time}
                                 </p>
                             </div>
@@ -150,10 +150,10 @@ export default function ChatInterface() {
                             <div className="flex flex-col gap-1 min-w-[160px]">
                                 <button
                                     onClick={() => { setActiveGame('trivia'); setShowGameMenu(false); }}
-                                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-violet-500/10 hover:text-violet-400 transition-all text-sm font-medium text-slate-300"
+                                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-rose-500/10 hover:text-rose-400 transition-all text-sm font-medium text-slate-300"
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-violet-400">
+                                    <div className="w-8 h-8 rounded-lg bg-rose-500/20 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-rose-400">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
                                         </svg>
                                     </div>
@@ -161,10 +161,10 @@ export default function ChatInterface() {
                                 </button>
                                 <button
                                     onClick={() => { setActiveGame('tictactoe'); setShowGameMenu(false); }}
-                                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-pink-500/10 hover:text-pink-400 transition-all text-sm font-medium text-slate-300"
+                                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-amber-500/10 hover:text-amber-400 transition-all text-sm font-medium text-slate-300"
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-pink-400">
+                                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-amber-500">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                                         </svg>
                                     </div>
@@ -178,7 +178,7 @@ export default function ChatInterface() {
                         <button
                             type="button"
                             onClick={() => setShowGameMenu(!showGameMenu)}
-                            className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all ${showGameMenu ? 'bg-violet-600 border-violet-500 shadow-lg shadow-violet-500/20' : 'bg-slate-800 border-slate-700 hover:bg-slate-700'}`}
+                            className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all ${showGameMenu ? 'bg-rose-600 border-rose-500 shadow-lg shadow-rose-500/20' : 'bg-slate-800 border-slate-700 hover:bg-slate-700'}`}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 ${showGameMenu ? 'text-white' : 'text-slate-400'}`}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
@@ -198,7 +198,7 @@ export default function ChatInterface() {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Type a message..."
-                            className="flex-1 bg-slate-800/50 border border-slate-700 rounded-full px-6 py-3 focus:outline-none focus:border-violet-500 transition-colors"
+                            className="flex-1 bg-slate-800/50 border border-slate-700 rounded-full px-6 py-3 focus:outline-none focus:border-rose-500 transition-colors text-white"
                         />
                         <button type="submit" className="btn-primary rounded-full w-12 h-12 flex items-center justify-center p-0">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

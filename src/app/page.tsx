@@ -80,7 +80,7 @@ export default function Home() {
           <section className="w-full max-w-[1800px] mx-auto px-8 mb-16">
             <div className="mb-8 px-4 xl:px-20">
               <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">
                   Your Matches
                 </span>
               </h2>
@@ -105,7 +105,7 @@ export default function Home() {
           <section className="w-full max-w-[1800px] mx-auto px-8 mb-20">
             <div className="mb-8 px-4 xl:px-20">
               <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">
                   New Users
                 </span>
               </h2>
@@ -130,14 +130,14 @@ export default function Home() {
               <div className="mt-12 flex justify-center px-4 xl:px-20">
                 <button
                   onClick={() => setShowMoreUsers(true)}
-                  className="group relative px-8 py-3 rounded-xl bg-gradient-to-r from-violet-500/10 to-pink-500/10 border border-violet-500/30 hover:border-violet-500/50 transition-all overflow-hidden"
+                  className="group relative px-8 py-3 rounded-xl bg-gradient-to-r from-rose-500/10 to-amber-500/10 border border-rose-500/30 hover:border-rose-500/50 transition-all overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-rose-500 to-amber-500 opacity-0 group-hover:opacity-10 transition-opacity"></div>
                   <div className="relative flex items-center gap-2 font-semibold">
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400">
                       See More Users
                     </span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 text-violet-400 group-hover:translate-y-0.5 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 text-rose-400 group-hover:translate-y-0.5 transition-transform">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg>
                   </div>

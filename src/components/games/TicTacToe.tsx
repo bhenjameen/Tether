@@ -62,7 +62,7 @@ export default function TicTacToe({ onClose, onComplete }: { onClose: () => void
 
                 <div className="text-center mb-8">
                     <h3 className="text-2xl font-bold text-white mb-2">Tic-Tac-Toe</h3>
-                    <p className={`text-sm font-medium ${winner ? 'text-violet-400 animate-pulse' : 'text-slate-400'}`}>
+                    <p className={`text-sm font-medium ${winner ? 'text-rose-400 animate-pulse' : 'text-slate-400'}`}>
                         {winner
                             ? (winner === 'Draw' ? "It's a Draw!" : `Player ${winner} Wins!`)
                             : `Next Player: ${isXNext ? 'X' : 'O'}`
@@ -76,8 +76,8 @@ export default function TicTacToe({ onClose, onComplete }: { onClose: () => void
                             key={i}
                             onClick={() => handleClick(i)}
                             className={`w-full aspect-square rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-4xl font-black transition-all active:scale-90
-                                ${!square && !winner ? 'hover:bg-white/10 hover:border-violet-500/30' : ''}
-                                ${square === 'X' ? 'text-violet-400' : 'text-pink-400'}
+                                ${!square && !winner ? 'hover:bg-white/10 hover:border-rose-500/30' : ''}
+                                ${square === 'X' ? 'text-rose-400' : 'text-amber-500'}
                             `}
                         >
                             {square}

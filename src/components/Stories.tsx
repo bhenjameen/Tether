@@ -19,7 +19,7 @@ export default function Stories({ center = false }: { center?: boolean }) {
             <div className={`flex gap-4 overflow-x-auto pb-2 scrollbar-hide px-4 md:px-0 ${center ? 'md:justify-center' : ''}`}>
                 {MOCK_STORIES.map((story) => (
                     <div key={story.id} className="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group">
-                        <div className={`relative w-20 h-20 rounded-full p-1 ${story.isMe ? 'bg-slate-700' : 'bg-gradient-to-tr from-violet-500 to-pink-500'}`}>
+                        <div className={`relative w-20 h-20 rounded-full p-1 ${story.isMe ? 'bg-slate-700' : 'bg-gradient-to-tr from-rose-500 to-amber-500'}`}>
                             <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-slate-950">
                                 <Image
                                     src={story.image}
@@ -29,7 +29,7 @@ export default function Stories({ center = false }: { center?: boolean }) {
                                 />
                             </div>
                             {story.isMe && (
-                                <div className="absolute bottom-0 right-0 w-6 h-6 bg-violet-600 rounded-full flex items-center justify-center border-2 border-slate-950">
+                                <div className="absolute bottom-0 right-0 w-6 h-6 bg-rose-600 rounded-full flex items-center justify-center border-2 border-slate-950">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 text-white">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                     </svg>

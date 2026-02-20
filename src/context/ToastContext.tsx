@@ -62,12 +62,12 @@ function ToastContainer() {
                     <div className={`glass-panel px-5 py-3 flex items-center gap-3 border-l-4 shadow-2xl min-w-[300px] ${toast.type === 'success' ? 'border-l-green-500' :
                         toast.type === 'error' ? 'border-l-red-500' :
                             toast.type === 'warning' ? 'border-l-amber-500' :
-                                'border-l-violet-500'
+                                'border-l-rose-500'
                         }`}>
                         <div className={`p-1.5 rounded-lg ${toast.type === 'success' ? 'bg-green-500/20 text-green-400' :
                             toast.type === 'error' ? 'bg-red-500/20 text-red-400' :
                                 toast.type === 'warning' ? 'bg-amber-500/20 text-amber-400' :
-                                    'bg-violet-500/20 text-violet-400'
+                                    'bg-rose-500/20 text-rose-400'
                             }`}>
                             {toast.type === 'warning' && (
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">

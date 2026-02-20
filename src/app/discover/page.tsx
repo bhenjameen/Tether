@@ -128,7 +128,7 @@ function DiscoveryPageContent() {
             <div className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400">Discover</h1>
+                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400">Discover</h1>
                         <p className="text-slate-400 mt-2">Find your perfect match nearby</p>
                     </div>
 
@@ -137,12 +137,12 @@ function DiscoveryPageContent() {
                         <div className="relative" ref={filterRef}>
                             <button
                                 onClick={() => { setShowFilters(!showFilters); setShowSort(false); }}
-                                className={`px-5 py-2.5 rounded-xl border border-white/10 transition-all text-sm font-medium flex items-center gap-2 ${showFilters ? 'bg-white/10 border-violet-500/50' : 'hover:bg-white/5'}`}
+                                className={`px-5 py-2.5 rounded-xl border border-white/10 transition-all text-sm font-medium flex items-center gap-2 ${showFilters ? 'bg-white/10 border-rose-500/50' : 'hover:bg-white/5'}`}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 12h9.75M10.5 18h9.75M3 6h3m1.5 0h3m-1.5 0v1.5m0-3V6m-4.5 9h3m1.5 0h3m-1.5 0v1.5m0-3V15m-4.5 3h3m1.5 0h3m-1.5 0v1.5m0-3V18" />
                                 </svg>
-                                Filter {(filterVerified || filterLocation !== 'All Locations' || filterAgeRange.label !== 'All Ages' || filterGender !== 'all' || filterPhotoOnly) && <span className="w-2 h-2 bg-violet-500 rounded-full" />}
+                                Filter {(filterVerified || filterLocation !== 'All Locations' || filterAgeRange.label !== 'All Ages' || filterGender !== 'all' || filterPhotoOnly) && <span className="w-2 h-2 bg-rose-500 rounded-full" />}
                             </button>
 
                             {showFilters && (
@@ -154,7 +154,7 @@ function DiscoveryPageContent() {
                                             <span className="text-sm text-slate-300">Verified Only</span>
                                             <button
                                                 onClick={() => setFilterVerified(!filterVerified)}
-                                                className={`w-10 h-5 rounded-full transition-colors relative ${filterVerified ? 'bg-violet-600' : 'bg-slate-700'}`}
+                                                className={`w-10 h-5 rounded-full transition-colors relative ${filterVerified ? 'bg-rose-600' : 'bg-slate-700'}`}
                                             >
                                                 <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${filterVerified ? 'left-6' : 'left-1'}`} />
                                             </button>
@@ -164,7 +164,7 @@ function DiscoveryPageContent() {
                                             <span className="text-sm text-slate-300">With Photo Only</span>
                                             <button
                                                 onClick={() => setFilterPhotoOnly(!filterPhotoOnly)}
-                                                className={`w-10 h-5 rounded-full transition-colors relative ${filterPhotoOnly ? 'bg-violet-600' : 'bg-slate-700'}`}
+                                                className={`w-10 h-5 rounded-full transition-colors relative ${filterPhotoOnly ? 'bg-rose-600' : 'bg-slate-700'}`}
                                             >
                                                 <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${filterPhotoOnly ? 'left-6' : 'left-1'}`} />
                                             </button>
@@ -178,7 +178,7 @@ function DiscoveryPageContent() {
                                                         key={g}
                                                         onClick={() => setFilterGender(g)}
                                                         className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-all capitalize ${filterGender === g
-                                                            ? 'bg-violet-600/20 border-violet-500/50 text-violet-300'
+                                                            ? 'bg-rose-600/20 border-rose-500/50 text-rose-300'
                                                             : 'bg-slate-900 border-white/5 text-slate-400 hover:bg-white/5'}`}
                                                     >
                                                         {g}
@@ -195,7 +195,7 @@ function DiscoveryPageContent() {
                                                         key={range.label}
                                                         onClick={() => setFilterAgeRange(range)}
                                                         className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${filterAgeRange.label === range.label
-                                                            ? 'bg-violet-600/20 border-violet-500/50 text-violet-300'
+                                                            ? 'bg-rose-600/20 border-rose-500/50 text-rose-300'
                                                             : 'bg-slate-900 border-white/5 text-slate-400 hover:bg-white/5'}`}
                                                     >
                                                         {range.label}
@@ -209,7 +209,7 @@ function DiscoveryPageContent() {
                                             <select
                                                 value={filterLocation}
                                                 onChange={(e) => setFilterLocation(e.target.value)}
-                                                className="w-full bg-slate-900 border border-white/5 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-violet-500 transition-colors"
+                                                className="w-full bg-slate-900 border border-white/5 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-500 transition-colors"
                                             >
                                                 {LOCATIONS.map(loc => <option key={loc} value={loc}>{loc}</option>)}
                                             </select>
@@ -223,7 +223,7 @@ function DiscoveryPageContent() {
                         <div className="relative" ref={sortRef}>
                             <button
                                 onClick={() => { setShowSort(!showSort); setShowFilters(false); }}
-                                className={`px-5 py-2.5 rounded-xl border border-white/10 transition-all text-sm font-medium flex items-center gap-2 ${showSort ? 'bg-white/10 border-violet-500/50' : 'hover:bg-white/5'}`}
+                                className={`px-5 py-2.5 rounded-xl border border-white/10 transition-all text-sm font-medium flex items-center gap-2 ${showSort ? 'bg-white/10 border-rose-500/50' : 'hover:bg-white/5'}`}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
@@ -242,7 +242,7 @@ function DiscoveryPageContent() {
                                         <button
                                             key={opt.value}
                                             onClick={() => { setSortBy(opt.value); setShowSort(false); }}
-                                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${sortBy === opt.value ? 'bg-violet-600/20 text-violet-300' : 'hover:bg-white/5 text-slate-400'}`}
+                                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${sortBy === opt.value ? 'bg-rose-600/20 text-rose-300' : 'hover:bg-white/5 text-slate-400'}`}
                                         >
                                             {opt.label}
                                         </button>
@@ -281,7 +281,7 @@ function DiscoveryPageContent() {
                                 setFilterGender('all');
                                 setFilterPhotoOnly(false);
                             }}
-                            className="text-violet-400 mt-4 hover:underline text-sm font-bold"
+                            className="text-rose-400 mt-4 hover:underline text-sm font-bold"
                         >
                             Reset all filters
                         </button>
@@ -308,7 +308,7 @@ function DiscoveryPageContent() {
                         <div className="flex items-center gap-2">
                             <span className="text-xs text-slate-400 uppercase tracking-widest font-bold">Page</span>
                             <div className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
-                                <span className="text-sm font-bold text-violet-400">{currentPage}</span>
+                                <span className="text-sm font-bold text-rose-400">{currentPage}</span>
                                 <span className="text-xs text-slate-500">/</span>
                                 <span className="text-sm font-bold text-slate-300">{totalPages}</span>
                             </div>
@@ -344,7 +344,7 @@ export default function DiscoveryPage() {
     return (
         <Suspense fallback={
             <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-violet-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-rose-500"></div>
             </div>
         }>
             <DiscoveryPageContent />

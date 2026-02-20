@@ -110,7 +110,7 @@ export default function SideMenu({ isOpen, onClose }: SideMenuProps) {
 
                     {/* User Mini Info */}
                     <div className="p-8 flex flex-col items-center">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center text-2xl font-bold text-white shadow-lg mb-4 ring-4 ring-violet-500/20">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-2xl font-bold text-white shadow-lg mb-4 ring-4 ring-rose-500/20">
                             ME
                         </div>
                         <h3 className="text-lg font-bold text-white">Sarah, 24</h3>
@@ -126,7 +126,7 @@ export default function SideMenu({ isOpen, onClose }: SideMenuProps) {
                                 onClick={onClose}
                                 className="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
                             >
-                                <span className="text-slate-400 group-hover:text-violet-400 transition-colors">
+                                <span className="text-slate-400 group-hover:text-rose-400 transition-colors">
                                     {item.icon}
                                 </span>
                                 <span className="font-medium">{item.label}</span>

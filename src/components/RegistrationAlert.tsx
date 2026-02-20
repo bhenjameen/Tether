@@ -37,7 +37,7 @@ export default function RegistrationAlert() {
 
     return (
         <div className="fixed bottom-6 right-6 z-[100] animate-in fade-in slide-in-from-bottom-5 duration-500">
-            <div className="glass-panel px-4 py-3 flex items-center gap-3 border-l-4 border-l-violet-500 shadow-2xl relative">
+            <div className="glass-panel px-4 py-3 flex items-center gap-3 border-l-4 border-l-rose-500 shadow-2xl relative">
                 {/* Close Button */}
                 <button
                     onClick={closeAlert}
@@ -48,7 +48,7 @@ export default function RegistrationAlert() {
                     </svg>
                 </button>
 
-                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-violet-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-rose-500 to-amber-500 flex items-center justify-center text-white font-bold text-sm">
                     {alert.name[0]}
                 </div>
                 <div className="pr-2">

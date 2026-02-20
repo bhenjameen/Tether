@@ -84,14 +84,14 @@ export default function UserProfilePage() {
                                         {profile.name}, {profile.age}
                                     </h1>
                                     {profile.isVerified && (
-                                        <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full shadow-lg">
+                                        <span className="inline-flex items-center justify-center w-8 h-8 bg-rose-500 rounded-full shadow-lg">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-white">
                                                 <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-3.946-4.654a.75.75 0 01.042 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06l1.47 1.47 2.97-2.97a.75.75 0 011.06-.042z" clipRule="evenodd" />
                                             </svg>
                                         </span>
                                     )}
                                 </div>
-                                <div className="flex items-center gap-2 text-violet-400 font-medium text-lg">
+                                <div className="flex items-center gap-2 text-rose-400 font-medium text-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
@@ -138,14 +138,14 @@ export default function UserProfilePage() {
                                     onClick={() => handleProtectedAction(() => router.push('/messages'))}
                                     className="py-5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-2xl font-bold text-white transition-all active:scale-95 flex items-center justify-center gap-2 text-base md:text-lg"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 md:w-6 md:h-6 text-violet-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 md:w-6 md:h-6 text-rose-400">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                                     </svg>
                                     <span className="hidden sm:inline">Chat</span>
                                 </button>
                                 <button
                                     onClick={() => handleProtectedAction(() => showToast("Liked!", "success"))}
-                                    className="py-5 btn-primary rounded-2xl font-bold text-white shadow-xl shadow-violet-500/20 active:scale-95 flex items-center justify-center gap-2 text-base md:text-lg"
+                                    className="py-5 btn-primary rounded-2xl font-bold text-white shadow-xl shadow-rose-500/20 active:scale-95 flex items-center justify-center gap-2 text-base md:text-lg"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 md:w-6 md:h-6 text-white animate-pulse">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />

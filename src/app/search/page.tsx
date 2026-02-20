@@ -131,14 +131,14 @@ function SearchPageContent() {
             <div className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400">Search Results</h1>
+                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400">Search Results</h1>
                         <p className="text-slate-400 mt-2">Showing {processedProfiles.length} matches based on your filters</p>
                     </div>
 
                     <div className="flex gap-3 relative" ref={sortRef}>
                         <button
                             onClick={() => setShowSort(!showSort)}
-                            className={`px-5 py-2.5 rounded-xl border border-white/10 transition-all text-sm font-medium flex items-center gap-2 ${showSort ? 'bg-white/10 border-violet-500/50' : 'hover:bg-white/5'}`}
+                            className={`px-5 py-2.5 rounded-xl border border-white/10 transition-all text-sm font-medium flex items-center gap-2 ${showSort ? 'bg-white/10 border-rose-500/50' : 'hover:bg-white/5'}`}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
@@ -156,7 +156,7 @@ function SearchPageContent() {
                                     <button
                                         key={opt.value}
                                         onClick={() => { setSortBy(opt.value); setShowSort(false); }}
-                                        className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${sortBy === opt.value ? 'bg-violet-600/20 text-violet-300' : 'hover:bg-white/5 text-slate-400'}`}
+                                        className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${sortBy === opt.value ? 'bg-rose-600/20 text-rose-300' : 'hover:bg-white/5 text-slate-400'}`}
                                     >
                                         {opt.label}
                                     </button>
@@ -167,14 +167,14 @@ function SearchPageContent() {
                 </div>
 
                 {/* Search Filter Bar */}
-                <div className="mb-10 p-5 glass-panel border-violet-500/10 bg-violet-500/5 animate-in slide-in-from-top-4 duration-500">
+                <div className="mb-10 p-5 glass-panel border-rose-500/10 bg-rose-500/5 animate-in slide-in-from-top-4 duration-500">
                     <div className="flex flex-wrap gap-8 items-center">
                         <div className="flex flex-col gap-1.5 min-w-[120px]">
                             <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Location</span>
                             <select
                                 value={filterLocation}
                                 onChange={(e) => updateParams('location', e.target.value)}
-                                className="bg-transparent border-none text-sm font-medium text-white focus:ring-0 p-0 cursor-pointer hover:text-violet-400 transition-colors"
+                                className="bg-transparent border-none text-sm font-medium text-white focus:ring-0 p-0 cursor-pointer hover:text-rose-400 transition-colors"
                             >
                                 {LOCATIONS.map(loc => <option key={loc} value={loc} className="bg-slate-900">{loc}</option>)}
                             </select>
@@ -187,7 +187,7 @@ function SearchPageContent() {
                             <select
                                 value={filterAgeRange.label}
                                 onChange={(e) => updateParams('age', e.target.value)}
-                                className="bg-transparent border-none text-sm font-medium text-white focus:ring-0 p-0 cursor-pointer hover:text-violet-400 transition-colors"
+                                className="bg-transparent border-none text-sm font-medium text-white focus:ring-0 p-0 cursor-pointer hover:text-rose-400 transition-colors"
                             >
                                 {AGE_RANGES.map(range => <option key={range.label} value={range.label} className="bg-slate-900">{range.label}</option>)}
                             </select>
@@ -200,7 +200,7 @@ function SearchPageContent() {
                             <select
                                 value={filterGender}
                                 onChange={(e) => updateParams('gender', e.target.value)}
-                                className="bg-transparent border-none text-sm font-medium text-white focus:ring-0 p-0 cursor-pointer hover:text-violet-400 transition-colors capitalize"
+                                className="bg-transparent border-none text-sm font-medium text-white focus:ring-0 p-0 cursor-pointer hover:text-rose-400 transition-colors capitalize"
                             >
                                 {['all', 'male', 'female'].map(g => <option key={g} value={g} className="bg-slate-900">{g}</option>)}
                             </select>
@@ -214,7 +214,7 @@ function SearchPageContent() {
                                 <span className={`text-[11px] font-medium transition-colors ${filterPhotoOnly ? 'text-slate-500' : 'text-white'}`}>All</span>
                                 <button
                                     onClick={() => updateParams('photo', (!filterPhotoOnly).toString())}
-                                    className={`w-8 h-4 rounded-full transition-colors relative flex items-center px-0.5 ${filterPhotoOnly ? 'bg-violet-600' : 'bg-slate-700'}`}
+                                    className={`w-8 h-4 rounded-full transition-colors relative flex items-center px-0.5 ${filterPhotoOnly ? 'bg-rose-600' : 'bg-slate-700'}`}
                                 >
                                     <div className={`w-3 h-3 bg-white rounded-full transition-all shadow-sm ${filterPhotoOnly ? 'translate-x-4' : 'translate-x-0'}`} />
                                 </button>
@@ -241,7 +241,7 @@ function SearchPageContent() {
                         <p className="text-slate-400">No results found for your search.</p>
                         <button
                             onClick={() => router.push('/search')}
-                            className="text-violet-400 mt-4 hover:underline text-sm font-bold"
+                            className="text-rose-400 mt-4 hover:underline text-sm font-bold"
                         >
                             Clear all filters
                         </button>
@@ -263,7 +263,7 @@ function SearchPageContent() {
                         <div className="flex items-center gap-2">
                             <span className="text-xs text-slate-400 uppercase tracking-widest font-bold">Page</span>
                             <div className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
-                                <span className="text-sm font-bold text-violet-400">{currentPage}</span>
+                                <span className="text-sm font-bold text-rose-400">{currentPage}</span>
                                 <span className="text-xs text-slate-500">/</span>
                                 <span className="text-sm font-bold text-slate-300">{totalPages}</span>
                             </div>
@@ -295,7 +295,7 @@ export default function SearchPage() {
     return (
         <Suspense fallback={
             <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-violet-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-rose-500"></div>
             </div>
         }>
             <SearchPageContent />

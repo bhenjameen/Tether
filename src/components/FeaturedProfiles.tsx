@@ -29,7 +29,7 @@ export default function FeaturedProfiles() {
         <section className="pt-10 pb-20 px-8 w-full max-w-[1800px] mx-auto">
             <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">
                         Active Singles
                     </span> Near You
                 </h2>

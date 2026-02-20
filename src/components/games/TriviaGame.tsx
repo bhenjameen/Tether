@@ -50,8 +50,8 @@ export default function TriviaGame({ onClose, onComplete }: TriviaGameProps) {
         <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300">
             <div className="w-full max-w-sm glass-panel p-6 shadow-2xl relative border border-white/10 overflow-hidden">
                 {/* Background Glow */}
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-violet-600/20 blur-3xl rounded-full" />
-                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-pink-600/20 blur-3xl rounded-full" />
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-rose-600/20 blur-3xl rounded-full" />
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-amber-600/20 blur-3xl rounded-full" />
 
                 <button
                     onClick={onClose}
@@ -71,7 +71,7 @@ export default function TriviaGame({ onClose, onComplete }: TriviaGameProps) {
 
                         <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
                             <div
-                                className="h-full bg-gradient-to-r from-violet-500 to-pink-500 transition-all duration-500"
+                                className="h-full bg-gradient-to-r from-rose-500 to-amber-500 transition-all duration-500"
                                 style={{ width: `${((currentStep + 1) / TRIVIA_QUESTIONS.length) * 100}%` }}
                             />
                         </div>
@@ -85,7 +85,7 @@ export default function TriviaGame({ onClose, onComplete }: TriviaGameProps) {
                                 <button
                                     key={option}
                                     onClick={() => handleOptionSelect(option)}
-                                    className="w-full p-4 rounded-xl bg-white/5 border border-white/10 hover:border-violet-500/50 hover:bg-violet-500/10 text-left transition-all active:scale-95 text-slate-200 hover:text-white font-medium group"
+                                    className="w-full p-4 rounded-xl bg-white/5 border border-white/10 hover:border-rose-500/50 hover:bg-rose-500/10 text-left transition-all active:scale-95 text-slate-200 hover:text-white font-medium group"
                                 >
                                     <span className="group-hover:translate-x-1 transition-transform inline-block">
                                         {option}
@@ -96,7 +96,7 @@ export default function TriviaGame({ onClose, onComplete }: TriviaGameProps) {
                     </div>
                 ) : (
                     <div className="text-center space-y-6 animate-in zoom-in-95 duration-500">
-                        <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-violet-500/20">
+                        <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-amber-500 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-rose-500/20">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8 text-white">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                             </svg>
