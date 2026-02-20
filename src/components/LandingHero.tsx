@@ -7,6 +7,15 @@ export default function LandingHero() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/20 blur-[120px] rounded-full -z-10 pointer-events-none" />
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-pink-500/10 blur-[100px] rounded-full -z-10 pointer-events-none" />
 
+            <div className="mb-8 relative">
+                <div className="absolute inset-0 bg-violet-500/20 blur-3xl rounded-full scale-150 -z-10" />
+                <img
+                    src="/logo.png"
+                    alt="Tether Logo"
+                    className="w-24 h-24 md:w-32 md:h-32 object-contain animate-float drop-shadow-2xl"
+                />
+            </div>
+
             <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
                 Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400">Perfect Match</span>
             </h1>

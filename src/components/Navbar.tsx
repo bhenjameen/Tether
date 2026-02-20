@@ -26,9 +26,16 @@ export default function Navbar() {
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 glass-panel border-t-0 border-x-0 rounded-none px-6 py-4 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-                <Link href="/" className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400">
-                    Tether
+            <div className="flex items-center gap-3">
+                <Link href="/" className="flex items-center gap-2 group">
+                    <img
+                        src="/logo.png"
+                        alt="Tether Logo"
+                        className="w-10 h-10 object-contain group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400">
+                        Tether
+                    </span>
                 </Link>
             </div>
 
