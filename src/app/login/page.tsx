@@ -104,7 +104,7 @@ export default function LoginPage() {
                 <div className="lg:w-[35%] p-4 lg:p-6 flex flex-col">
                     {/* Centered Wrapper for Desktop */}
                     <div className="lg:fixed lg:top-0 lg:right-0 lg:w-[35%] lg:h-screen lg:px-8 lg:pt-20 flex flex-col items-center justify-center">
-                        <div className={`w-full max-w-[360px] glass-panel p-6 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
+                        <div className={`w-full max-w-[360px] glass-panel p-4 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
                             <div className="text-center mb-8">
                                 <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400 mb-1.5">
                                     Welcome Back
