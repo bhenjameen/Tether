@@ -30,9 +30,7 @@ export default function RootLayout({
         <ToastProvider>
           <AuthProvider>
             <MessageProvider>
-              <div className="px-6 md:px-0 min-h-screen">
-                {children}
-              </div>
+              {children}
             </MessageProvider>
           </AuthProvider>
         </ToastProvider>
