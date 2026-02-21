@@ -162,7 +162,7 @@ export default function LoginPage() {
                                 </button>
                             </form>
 
-                            <div className="mt-8 text-center">
+                            <div className="mt-4 text-center">
                                 <p className="text-slate-500 text-[10px] mb-4 uppercase tracking-widest">Or continue with</p>
                                 <div className="grid grid-cols-2 gap-3">
                                     <button className="flex items-center justify-center gap-2 bg-white/5 border border-slate-700 hover:bg-white/10 py-2 rounded-xl transition-colors text-xs text-slate-300">
@@ -183,7 +183,7 @@ export default function LoginPage() {
                                 </div>
                             </div>
 
-                            <p className="mt-10 text-center text-slate-400 text-sm">
+                            <p className="mt-6 text-center text-slate-400 text-sm">
                                 New here?{' '}
                                 <Link href="/register" className="text-rose-400 hover:text-rose-300 font-bold">
                                     Join Now

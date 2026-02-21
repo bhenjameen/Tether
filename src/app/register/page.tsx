@@ -211,7 +211,7 @@ export default function RegisterPage() {
                                 </button>
                             </form>
 
-                            <p className="mt-8 text-center text-slate-400 text-sm">
+                            <p className="mt-6 text-center text-slate-400 text-sm">
                                 Already have an account?{' '}
                                 <Link href="/login" className="text-rose-400 hover:text-rose-300 font-bold">
                                     Sign In
