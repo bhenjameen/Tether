@@ -130,7 +130,7 @@ export default function RegisterPage() {
                             </div>
 
                             {error && (
-                                <div className="mb-6 px-4 py-3 bg-rose-500/10 backdrop-blur-md border border-rose-500/20 rounded-2xl text-[11px] text-rose-300 flex items-center gap-3 animate-in fade-in zoom-in-95 duration-300">
+                                <div className="mb-4 px-3 py-2 bg-rose-500/10 backdrop-blur-md border border-rose-500/20 rounded-2xl text-[11px] text-rose-300 flex items-center gap-3 animate-in fade-in zoom-in-95 duration-300">
                                     <div className="flex-shrink-0 w-5 h-5 rounded-full bg-rose-500/20 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 text-rose-400">
                                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
