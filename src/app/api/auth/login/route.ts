@@ -68,8 +68,17 @@ export async function POST(request: Request) {
         });
     } catch (error: any) {
         console.error('Login error:', error);
+
+        // Check for specific Prisma/DB connection errors to give better feedback
+        if (error.code === 'P2024' || error.message?.includes('Can\'t reach database server')) {
+            return NextResponse.json(
+                { error: 'Database connection failed. Please ensure your Vercel database is connected.' },
+                { status: 503 }
+            );
+        }
+
         return NextResponse.json(
-            { error: 'Internal server error' },
+            { error: 'Login service unavailable. Please check your JWT_SECRET and try again.' },
             { status: 500 }
         );
     }

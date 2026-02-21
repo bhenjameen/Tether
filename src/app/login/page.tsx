@@ -30,6 +30,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [shouldShake, setShouldShake] = useState(false);
 
     // Redirect if already logged in
     useEffect(() => {
@@ -42,6 +43,7 @@ export default function LoginPage() {
         e.preventDefault();
         setIsLoggingIn(true);
         setError(null);
+        setShouldShake(false);
 
         try {
             const response = await fetch('/api/auth/login', {
@@ -58,10 +60,15 @@ export default function LoginPage() {
             } else {
                 setError(data.error || 'Login failed. Please try again.');
                 setIsLoggingIn(false);
+                setShouldShake(true);
+                // Reset shake after animation completes
+                setTimeout(() => setShouldShake(false), 500);
             }
         } catch (err) {
             setError('Something went wrong. Please check your connection.');
             setIsLoggingIn(false);
+            setShouldShake(true);
+            setTimeout(() => setShouldShake(false), 500);
         }
     };
 
@@ -97,7 +104,7 @@ export default function LoginPage() {
                 <div className="lg:w-[35%] p-4 lg:p-6 flex flex-col">
                     {/* Centered Wrapper for Desktop */}
                     <div className="lg:fixed lg:top-0 lg:right-0 lg:w-[35%] lg:h-screen lg:px-8 lg:pt-20 flex flex-col items-center justify-center">
-                        <div className="w-full max-w-[360px] glass-panel p-8 shadow-2xl border border-white/10">
+                        <div className={`w-full max-w-[360px] glass-panel p-8 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
                             <div className="text-center mb-8">
                                 <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400 mb-1.5">
                                     Welcome Back
@@ -106,8 +113,13 @@ export default function LoginPage() {
                             </div>
 
                             {error && (
-                                <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-xs text-rose-400 text-center animate-in fade-in slide-in-from-top-2">
-                                    {error}
+                                <div className="mb-6 px-4 py-3 bg-rose-500/10 backdrop-blur-md border border-rose-500/20 rounded-2xl text-[11px] text-rose-300 flex items-center gap-3 animate-in fade-in zoom-in-95 duration-300">
+                                    <div className="flex-shrink-0 w-5 h-5 rounded-full bg-rose-500/20 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 text-rose-400">
+                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <span className="leading-tight font-medium">{error}</span>
                                 </div>
                             )}
 
