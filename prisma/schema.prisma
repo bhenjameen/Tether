@@ -7,10 +7,10 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // Uses connection pooling
-  url = env("POSTGRES_PRISMA_URL")
-  // Uses direct connection, ️needed for migrations
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  // Uses the specialized Prisma URL provided by Vercel
+  url      = env("PRISMA_DATABASE_URL")
+  // Uses the direct Postgres URL
+  directUrl = env("POSTGRES_URL")
 }
 
 model User {
