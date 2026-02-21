@@ -49,8 +49,23 @@ export async function POST(request: Request) {
         );
     } catch (error: any) {
         console.error('Registration error:', error);
+
+        if (error.code === 'P2021') {
+            return NextResponse.json(
+                { error: 'Database tables not found. Please ensure you have run "npx prisma db push".' },
+                { status: 500 }
+            );
+        }
+
+        if (error.code === 'P2024' || error.message?.includes('Can\'t reach database server')) {
+            return NextResponse.json(
+                { error: 'Database connection failed. Please ensure your Vercel database is connected.' },
+                { status: 503 }
+            );
+        }
+
         return NextResponse.json(
-            { error: 'Internal server error' },
+            { error: `Registration error: ${error.message || 'Unknown error'}. Please check your configuration.` },
             { status: 500 }
         );
     }

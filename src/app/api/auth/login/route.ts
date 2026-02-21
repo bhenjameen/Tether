@@ -9,6 +9,17 @@ const JWT_SECRET = new TextEncoder().encode(
 );
 
 export async function POST(request: Request) {
+    // Explicitly validate JWT_SECRET existence and length (jose HS256 requires 32 chars)
+    const secret = process.env.JWT_SECRET;
+    if (!secret || secret.length < 32) {
+        return NextResponse.json(
+            { error: 'Server configuration error: JWT_SECRET is missing or too short (min 32 chars). Please check Vercel Environment Variables.' },
+            { status: 500 }
+        );
+    }
+
+    const JWT_SECRET = new TextEncoder().encode(secret);
+
     try {
         const { email, password } = await request.json();
 
@@ -77,8 +88,15 @@ export async function POST(request: Request) {
             );
         }
 
+        if (error.code === 'P2021') {
+            return NextResponse.json(
+                { error: 'Database tables not found. Please ensure you have run "npx prisma db push".' },
+                { status: 500 }
+            );
+        }
+
         return NextResponse.json(
-            { error: 'Login service unavailable. Please check your JWT_SECRET and try again.' },
+            { error: `Login error: ${error.message || 'Unknown error'}. Please check your configuration.` },
             { status: 500 }
         );
     }
