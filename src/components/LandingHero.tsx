@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function LandingHero() {
     return (
-        <div className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative overflow-hidden py-32">
+        <div className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden py-32">
             {/* Background decoration */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-rose-600/20 blur-[120px] rounded-full -z-10 pointer-events-none" />
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-amber-500/10 blur-[100px] rounded-full -z-10 pointer-events-none" />
@@ -16,8 +16,8 @@ export default function LandingHero() {
                 />
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
-                Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">Perfect Match</span>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight leading-tight">
+                Find Your <br className="md:hidden" /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">Perfect Match</span>
             </h1>
 
             <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-12 leading-relaxed">
