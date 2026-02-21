@@ -121,8 +121,8 @@ export default function RegisterPage() {
                 <div className="lg:w-[35%] p-4 lg:p-6 flex flex-col">
                     {/* Centered Wrapper for Desktop */}
                     <div className="lg:fixed lg:top-0 lg:right-0 lg:w-[35%] lg:h-screen lg:px-8 lg:pt-20 flex flex-col items-center justify-center">
-                        <div className={`w-full max-w-[380px] glass-panel px-6 py-7 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
-                            <div className="text-center mb-5">
+                        <div className={`w-full max-w-[380px] glass-panel p-6 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
+                            <div className="text-center mb-6">
                                 <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400 mb-1.5">
                                     Join Community
                                 </h1>
@@ -130,7 +130,7 @@ export default function RegisterPage() {
                             </div>
 
                             {error && (
-                                <div className="mb-4 px-4 py-3 bg-rose-500/10 backdrop-blur-md border border-rose-500/20 rounded-2xl text-[11px] text-rose-300 flex items-center gap-3 animate-in fade-in zoom-in-95 duration-300">
+                                <div className="mb-6 px-4 py-3 bg-rose-500/10 backdrop-blur-md border border-rose-500/20 rounded-2xl text-[11px] text-rose-300 flex items-center gap-3 animate-in fade-in zoom-in-95 duration-300">
                                     <div className="flex-shrink-0 w-5 h-5 rounded-full bg-rose-500/20 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 text-rose-400">
                                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
@@ -211,7 +211,7 @@ export default function RegisterPage() {
                                 </button>
                             </form>
 
-                            <p className="mt-6 text-center text-slate-400 text-sm">
+                            <p className="mt-8 text-center text-slate-400 text-sm">
                                 Already have an account?{' '}
                                 <Link href="/login" className="text-rose-400 hover:text-rose-300 font-bold">
                                     Sign In
