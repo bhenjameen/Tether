@@ -81,7 +81,7 @@ export default function LoginPage() {
 
             <div className="flex-1 flex flex-col lg:flex-row pt-32">
                 {/* Left Side: Community Showcase (65%) */}
-                <div className="lg:w-[65%] flex flex-col px-8 py-12 border-r border-white/5 bg-slate-900/10">
+                <div className="hidden lg:flex lg:w-[65%] flex-col px-8 py-12 border-r border-white/5 bg-slate-900/10">
                     <div className="mb-8">
                         <h2 className="text-3xl font-bold text-white mb-1">Happening Now</h2>
                         <p className="text-slate-400">Join thousands of people finding connections today.</p>
@@ -101,9 +101,9 @@ export default function LoginPage() {
                 </div>
 
                 {/* Right Side: Static/Fixed Auth Pane (35%) */}
-                <div className="lg:w-[35%] p-4 lg:p-6 flex flex-col">
+                <div className="w-full lg:w-[35%] p-4 lg:p-6 flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] lg:min-h-0">
                     {/* Centered Wrapper for Desktop */}
-                    <div className="lg:fixed lg:top-0 lg:right-0 lg:w-[35%] lg:h-screen lg:px-8 lg:pt-20 flex flex-col items-center justify-center">
+                    <div className="relative w-full lg:fixed lg:top-0 lg:right-0 lg:w-[35%] lg:h-screen lg:px-8 lg:pt-20 flex flex-col items-center justify-center">
                         <div className={`w-full max-w-[360px] glass-panel p-4 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
                             <div className="text-center mb-8">
                                 <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400 mb-1.5">
