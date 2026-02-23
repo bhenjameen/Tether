@@ -33,7 +33,7 @@ export default function FeaturedProfiles() {
                         Active Singles
                     </span> Near You
                 </h2>
-                <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+                <p className="text-slate-400 text-base md:text-xl max-w-2xl mx-auto">
                     Join thousands of people looking for their perfect connection.
                     Here are just a few of the people online right now.
                 </p>

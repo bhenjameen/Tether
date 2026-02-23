@@ -129,7 +129,7 @@ function DiscoveryPageContent() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
                     <div>
                         <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400">Discover</h1>
-                        <p className="text-slate-400 mt-2">Find your perfect match nearby</p>
+                        <p className="text-slate-400 mt-2 text-base md:text-lg">Find your perfect match nearby</p>
                     </div>
 
                     <div className="flex gap-3 relative">

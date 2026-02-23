@@ -115,7 +115,7 @@ export default function NotificationsPage() {
                 <div className="flex justify-between items-center mb-8">
                     <div>
                         <h1 className="text-3xl font-bold text-white mb-2">Notifications</h1>
-                        <p className="text-slate-400 text-sm">Stay updated with your latest activities</p>
+                        <p className="text-slate-400 text-base">Stay updated with your latest activities</p>
                     </div>
                     <button
                         onClick={markAllAsRead}

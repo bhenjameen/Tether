@@ -160,7 +160,7 @@ export default function UserProfilePage() {
                     <div className="mt-24 pt-12 border-t border-white/10">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl font-bold text-white mb-4">You May Also Like</h2>
-                            <p className="text-slate-400">Explore more profiles that might be your perfect match.</p>
+                            <p className="text-slate-400 text-base">Explore more profiles that might be your perfect match.</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 place-items-center px-4">
