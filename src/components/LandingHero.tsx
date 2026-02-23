@@ -20,7 +20,7 @@ export default function LandingHero() {
                 Find Your <br className="md:hidden" /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">Perfect Match</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-12 leading-relaxed">
+            <p className="text-base md:text-xl text-slate-300 max-w-2xl mb-12 leading-relaxed px-8 md:px-0">
                 Experience a premium dating platform designed for real connections.
                 Better features, better matches, better conversations.
             </p>
