@@ -18,6 +18,7 @@ import { AuthProvider } from '@/context/AuthContext'
 
 import { ToastProvider } from '@/context/ToastContext'
 import { MessageProvider } from '@/context/MessageContext'
+import Footer from '@/components/Footer'
 
 export default function RootLayout({
   children,
@@ -31,6 +32,7 @@ export default function RootLayout({
           <AuthProvider>
             <MessageProvider>
               {children}
+              <Footer />
             </MessageProvider>
           </AuthProvider>
         </ToastProvider>
