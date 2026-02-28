@@ -10,7 +10,7 @@ export default function Footer() {
     if (isLoggedIn || isLoading) return null;
 
     return (
-        <footer className="relative z-10 glass-panel border-b-0 border-x-0 rounded-none px-6 py-12 mt-20">
+        <footer className="relative z-10 glass-panel border-b-0 border-x-0 rounded-none px-6 py-12">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
                 {/* Branding Section */}
                 <div className="md:col-span-2 space-y-6">
@@ -33,8 +33,8 @@ export default function Footer() {
                 </div>
 
                 {/* Simplified Links Section */}
-                <div className="md:col-span-2 flex flex-col gap-6 md:justify-start items-start md:items-end">
-                    <ul className="flex flex-wrap gap-x-8 gap-y-3">
+                <div className="md:col-span-2 flex flex-col gap-8 md:gap-6 md:justify-start items-start md:items-end">
+                    <ul className="flex flex-col md:flex-row gap-x-8 gap-y-4 md:gap-y-3">
                         <li>
                             <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-medium">About Us</Link>
                         </li>
@@ -45,7 +45,7 @@ export default function Footer() {
                             <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-medium">Terms of Service</Link>
                         </li>
                     </ul>
-                    <ul className="flex flex-wrap gap-x-8 gap-y-3">
+                    <ul className="flex flex-col md:flex-row gap-x-8 gap-y-4 md:gap-y-3">
                         <li>
                             <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-bold text-rose-400/90 tracking-wide uppercase text-[11px]">Contact</Link>
                         </li>

@@ -109,7 +109,7 @@ export default function RegisterPage() {
             <div className="relative z-10 flex flex-col min-h-screen">
                 <Navbar />
 
-                <div className="flex-1 flex flex-col lg:flex-row pt-20 lg:pt-32">
+                <div className="flex-1 flex flex-col lg:flex-row pt-32 lg:pt-32 pb-20 lg:pb-0">
                     {/* Left Side: Community Showcase (65%) */}
                     <div className="hidden lg:flex lg:w-[65%] flex-col px-8 py-12 border-r border-white/5 bg-slate-900/10">
                         <div className="mb-8">
@@ -132,9 +132,9 @@ export default function RegisterPage() {
 
                     {/* Right Side: Auth Pane (35%) */}
                     <div className="w-full lg:w-[35%] p-4 sm:p-6 lg:p-6 flex flex-col items-center justify-start min-h-[calc(100vh-5rem)] lg:min-h-0">
-                        {/* Sticky Wrapper for Desktop - will scroll with container when page ends */}
-                        <div className="relative w-full lg:sticky lg:top-32 lg:w-full lg:px-8 flex flex-col items-center justify-center px-6">
-                            <div className={`w-full max-w-[420px] lg:max-w-[350px] glass-panel p-8 lg:p-8 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
+                        {/* Sticky Wrapper for Desktop - centered vertically until footer */}
+                        <div className="relative w-full lg:sticky lg:top-1/2 lg:-translate-y-1/2 lg:w-full lg:px-8 flex flex-col items-center justify-center px-6">
+                            <div className={`w-full max-w-[420px] lg:max-w-[340px] glass-panel p-8 lg:p-6 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
                                 <div className="text-center mb-8">
                                     <h1 className="text-3xl lg:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400 mb-2">
                                         Join Community
