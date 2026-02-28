@@ -126,7 +126,7 @@ function SearchPageContent() {
     };
 
     return (
-        <main className="min-h-screen bg-slate-950 pb-20">
+        <main className="min-h-screen pb-20">
             <Navbar />
             <div className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">

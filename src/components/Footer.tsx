@@ -33,26 +33,24 @@ export default function Footer() {
                 </div>
 
                 {/* Simplified Links Section */}
-                <div className="md:col-span-2 flex flex-col md:flex-row gap-8 md:gap-16 md:justify-end items-start md:items-center">
-                    <ul className="space-y-3">
+                <div className="md:col-span-2 flex flex-col gap-6 md:justify-end items-start md:items-end">
+                    <ul className="flex flex-wrap gap-x-8 gap-y-3">
                         <li>
                             <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-medium">About Us</Link>
                         </li>
                         <li>
                             <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-medium">Privacy Policy</Link>
                         </li>
-                    </ul>
-                    <ul className="space-y-3">
                         <li>
                             <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-medium">Terms of Service</Link>
                         </li>
                     </ul>
-                    <ul className="space-y-3">
+                    <ul className="flex flex-wrap gap-x-8 gap-y-3">
                         <li>
-                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-bold text-rose-400/90">Contact</Link>
+                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-bold text-rose-400/90 tracking-wide uppercase text-[11px]">Contact</Link>
                         </li>
                         <li>
-                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-bold text-rose-400/90">Support</Link>
+                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-bold text-rose-400/90 tracking-wide uppercase text-[11px]">Support</Link>
                         </li>
                     </ul>
                 </div>
