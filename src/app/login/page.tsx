@@ -92,7 +92,7 @@ export default function LoginPage() {
             <div className="relative z-10 flex flex-col min-h-screen">
                 <Navbar />
 
-                <div className="flex-1 flex flex-col lg:flex-row pt-40 lg:pt-40 pb-6 lg:pb-0">
+                <div className="flex-1 flex flex-col lg:flex-row pt-10 lg:pt-10 pb-6 lg:pb-0">
                     {/* Left Side: Community Showcase (65%) */}
                     <div className="hidden lg:flex lg:w-[65%] flex-col px-8 py-12 border-r border-white/5 bg-slate-900/10">
                         <div className="mb-8">
