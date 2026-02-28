@@ -28,41 +28,31 @@ export default function Footer() {
                         A premium dating experience designed for meaningful connections. Join thousands of people finding their perfect match on Tether.
                     </p>
                     <div className="pt-2 text-xs text-slate-500 font-medium tracking-wide uppercase">
-                        © {new Date().getFullYear()} Tether Inc.
+                        © {new Date().getFullYear()} Tether
                     </div>
                 </div>
 
-                {/* Navigation - Product */}
-                <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-slate-200 uppercase tracking-widest">Product</h3>
+                {/* Simplified Links Section */}
+                <div className="md:col-span-2 flex flex-col md:flex-row gap-8 md:gap-16 md:justify-end items-start md:items-center">
                     <ul className="space-y-3">
                         <li>
-                            <Link href="/" className="text-slate-400 hover:text-rose-400 text-sm transition-colors">Home</Link>
+                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-medium">About Us</Link>
                         </li>
                         <li>
-                            <Link href="/discover" className="text-slate-400 hover:text-rose-400 text-sm transition-colors">Discover</Link>
-                        </li>
-                        <li>
-                            <Link href="/search" className="text-slate-400 hover:text-rose-400 text-sm transition-colors">Search</Link>
+                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-medium">Privacy Policy</Link>
                         </li>
                     </ul>
-                </div>
-
-                {/* Navigation - Company */}
-                <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-slate-200 uppercase tracking-widest">Company</h3>
                     <ul className="space-y-3">
                         <li>
-                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors">About Us</Link>
+                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-medium">Terms of Service</Link>
+                        </li>
+                    </ul>
+                    <ul className="space-y-3">
+                        <li>
+                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-bold text-rose-400/90">Contact</Link>
                         </li>
                         <li>
-                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors">Privacy Policy</Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors">Terms of Service</Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-bold text-rose-400/80">Support</Link>
+                            <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-bold text-rose-400/90">Support</Link>
                         </li>
                     </ul>
                 </div>
