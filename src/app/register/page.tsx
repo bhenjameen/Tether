@@ -130,11 +130,11 @@ export default function RegisterPage() {
                         </div>
                     </div>
 
-                    {/* Right Side: Static/Fixed Auth Pane (35%) */}
-                    <div className="w-full lg:w-[35%] p-4 sm:p-6 lg:p-6 flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] lg:min-h-0">
-                        {/* Centered Wrapper for Desktop */}
-                        <div className="relative w-full lg:fixed lg:top-0 lg:right-0 lg:w-[35%] lg:h-screen lg:px-8 lg:pt-20 flex flex-col items-center justify-center px-6">
-                            <div className={`w-full max-w-[420px] lg:max-w-[380px] glass-panel p-8 lg:p-6 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
+                    {/* Right Side: Auth Pane (35%) */}
+                    <div className="w-full lg:w-[35%] p-4 sm:p-6 lg:p-6 flex flex-col items-center justify-start min-h-[calc(100vh-5rem)] lg:min-h-0">
+                        {/* Sticky Wrapper for Desktop - will scroll with container when page ends */}
+                        <div className="relative w-full lg:sticky lg:top-32 lg:w-full lg:px-8 flex flex-col items-center justify-center px-6">
+                            <div className={`w-full max-w-[420px] lg:max-w-[350px] glass-panel p-8 lg:p-8 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
                                 <div className="text-center mb-8">
                                     <h1 className="text-3xl lg:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400 mb-2">
                                         Join Community

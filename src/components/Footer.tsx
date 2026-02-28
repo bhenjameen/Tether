@@ -33,7 +33,7 @@ export default function Footer() {
                 </div>
 
                 {/* Simplified Links Section */}
-                <div className="md:col-span-2 flex flex-col gap-6 md:justify-end items-start md:items-end">
+                <div className="md:col-span-2 flex flex-col gap-6 md:justify-start items-start md:items-end">
                     <ul className="flex flex-wrap gap-x-8 gap-y-3">
                         <li>
                             <Link href="#" className="text-slate-400 hover:text-rose-400 text-sm transition-colors font-medium">About Us</Link>
