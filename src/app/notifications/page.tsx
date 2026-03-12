@@ -108,7 +108,7 @@ export default function NotificationsPage() {
     if (!isLoggedIn) return null;
 
     return (
-        <main className="min-h-screen bg-slate-950 pt-32 pb-12 px-4">
+        <main className="min-h-screen bg-slate-950 pt-32 pb-12 px-6">
             <Navbar />
 
             <div className="max-w-2xl mx-auto">

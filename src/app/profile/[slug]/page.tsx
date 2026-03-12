@@ -52,7 +52,7 @@ export default function UserProfilePage() {
             <Navbar />
 
             <div className="pt-20">
-                <div className="max-w-6xl mx-auto px-4 py-12">
+                <div className="max-w-6xl mx-auto px-6 py-12">
                     <button
                         onClick={() => router.back()}
                         className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 group"
