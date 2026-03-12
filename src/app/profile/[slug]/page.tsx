@@ -163,7 +163,7 @@ export default function UserProfilePage() {
                             <p className="text-slate-400 text-base">Explore more profiles that might be your perfect match.</p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 place-items-center px-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 place-items-center">
                             {relatedProfiles.map((p) => (
                                 <ProfileCard
                                     key={p.id}
