@@ -94,7 +94,7 @@ export default function LoginPage() {
 
                 <div className="flex-1 flex flex-col lg:flex-row pt-32 lg:pt-32 pb-6 lg:pb-0">
                     {/* Left Side: Community Showcase (65%) */}
-                    <div className="hidden lg:flex lg:w-[65%] flex-col px-8 py-12 border-r border-white/5 bg-slate-900/10">
+                    <div className="hidden lg:flex lg:w-[65%] flex-col px-8 lg:pt-0 lg:pb-12 py-12 border-r border-white/5 bg-slate-900/10">
                         <div className="mb-8">
                             <h2 className="text-3xl font-bold text-white mb-1">Happening Now</h2>
                             <p className="text-slate-400">Join thousands of people finding connections today.</p>
@@ -114,7 +114,7 @@ export default function LoginPage() {
                     </div>
 
                     {/* Right Side: Auth Pane (35%) */}
-                    <div className="w-full lg:w-[35%] p-4 sm:p-6 lg:p-6 flex flex-col items-center justify-start min-h-[calc(100vh-5rem)] lg:min-h-0">
+                    <div className="w-full lg:w-[35%] p-4 sm:p-6 lg:pt-0 lg:px-6 lg:pb-6 flex flex-col items-center justify-start min-h-[calc(100vh-5rem)] lg:min-h-0">
                         {/* Sticky Wrapper for Desktop - centered vertically until footer */}
                         <div className="relative w-full lg:sticky lg:top-1/2 lg:-translate-y-1/2 lg:w-full lg:px-8 flex flex-col items-center justify-center px-6">
                             <div className={`w-full max-w-[420px] lg:max-w-[320px] glass-panel p-8 lg:px-6 lg:py-4 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
