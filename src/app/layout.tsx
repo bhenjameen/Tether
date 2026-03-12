@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-// Triggering deployment for official database-backed authentication - 2026-02-28-2345
+// Triggering deployment for mobile alignment standardization - 2026-03-12-2312
 
 const inter = Inter({ subsets: ['latin'] })
 
