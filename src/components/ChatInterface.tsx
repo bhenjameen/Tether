@@ -57,7 +57,7 @@ export default function ChatInterface() {
     };
 
     return (
-        <div className="flex h-[calc(100vh-100px)] glass-panel overflow-hidden">
+        <div className="flex h-[calc(100vh-128px)] md:h-[calc(100vh-160px)] md:glass-panel overflow-hidden bg-slate-950 md:bg-transparent border-t border-white/5 md:border-none">
             {/* Sidebar - Chat List */}
             <div className="w-80 border-r border-slate-700/50 hidden md:flex flex-col">
                 <div className="p-4 border-b border-slate-700/50">
@@ -106,7 +106,7 @@ export default function ChatInterface() {
             {/* Main Chat Area */}
             <div className="flex-1 flex flex-col">
                 {/* Chat Header */}
-                <div className="p-4 border-b border-slate-700/50 flex items-center gap-3">
+                <div className="p-4 border-b border-slate-700/50 flex items-center gap-3 bg-slate-950 md:bg-transparent">
                     <div className="w-10 h-10 rounded-full overflow-hidden md:hidden relative">
                         <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80" alt="Amara" fill className="object-cover" />
                     </div>
@@ -144,7 +144,7 @@ export default function ChatInterface() {
                 </div>
 
                 {/* Input Area */}
-                <div className="p-4 border-t border-slate-700/50 flex flex-col gap-2 relative">
+                <div className="p-4 md:p-4 border-t border-slate-700/50 flex flex-col gap-2 relative bg-slate-950 md:bg-transparent">
                     {showGameMenu && (
                         <div className="absolute bottom-20 left-4 glass-panel p-2 shadow-2xl border border-white/10 animate-in slide-in-from-bottom-4 duration-300 z-40">
                             <div className="flex flex-col gap-1 min-w-[160px]">

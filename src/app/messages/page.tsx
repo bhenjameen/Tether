@@ -18,9 +18,9 @@ export default function MessagesPage() {
     if (!isLoggedIn) return null;
 
     return (
-        <main className="min-h-screen bg-slate-950 pt-32">
+        <div className="min-h-screen pt-32">
             <Navbar />
             <ChatInterface />
-        </main>
+        </div>
     );
 }
