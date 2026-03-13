@@ -112,14 +112,14 @@ export default function NotificationsPage() {
             <Navbar />
 
             <div className="max-w-2xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex justify-between items-center gap-4 mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-white mb-2">Notifications</h1>
-                        <p className="text-slate-400 text-base">Stay updated with your latest activities</p>
+                        <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Notifications</h1>
+                        <p className="text-slate-400 text-sm leading-tight">Stay updated with your latest activities</p>
                     </div>
                     <button
                         onClick={markAllAsRead}
-                        className="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium text-white transition-all active:scale-95 disabled:opacity-50"
+                        className="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs sm:text-sm font-medium text-white transition-all active:scale-95 disabled:opacity-50 whitespace-nowrap flex-shrink-0"
                         disabled={notifications.every(n => n.isRead)}
                     >
                         Mark all as read
