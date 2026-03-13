@@ -20,6 +20,11 @@ import { ToastProvider } from '@/context/ToastContext'
 import { MessageProvider } from '@/context/MessageContext'
 import Footer from '@/components/Footer'
 
+import { UIProvider } from '@/context/UIContext'
+import SearchModal from '@/components/SearchModal'
+import SideMenu from '@/components/SideMenu'
+import MobileNav from '@/components/MobileNav'
+
 export default function RootLayout({
   children,
 }: {
@@ -31,8 +36,11 @@ export default function RootLayout({
         <ToastProvider>
           <AuthProvider>
             <MessageProvider>
-              {children}
-              <Footer />
+              <UIProvider>
+                {children}
+                <Footer />
+                <MobileNav />
+              </UIProvider>
             </MessageProvider>
           </AuthProvider>
         </ToastProvider>

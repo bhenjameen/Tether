@@ -7,14 +7,14 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/context/ToastContext';
 import { useMessages } from '@/context/MessageContext';
+import { useUI } from '@/context/UIContext';
 
 export default function Navbar() {
     const { isLoggedIn } = useAuth();
     const { showToast } = useToast();
     const { unreadCount } = useMessages();
     const router = useRouter();
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { isSearchOpen, setIsSearchOpen, isMenuOpen, setIsMenuOpen } = useUI();
 
     const handleInboxClick = (e: React.MouseEvent) => {
         if (!isLoggedIn) {
@@ -127,9 +127,6 @@ export default function Navbar() {
                     )}
                 </div>
             </div>
-
-            <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-            <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
         </nav>
     );
 }
