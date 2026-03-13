@@ -54,7 +54,7 @@ export default function Home() {
   const displayedUsers = showMoreUsers ? NEW_USERS : NEW_USERS.slice(0, 12);
 
   return (
-    <main className="flex min-h-screen flex-col">
+    <div className="flex flex-col">
       <Navbar />
 
       {/* Show hero only for logged-out users */}
@@ -158,6 +158,6 @@ export default function Home() {
           onClose={() => setSelectedProfile(null)}
         />
       )}
-    </main>
+    </div>
   )
 }

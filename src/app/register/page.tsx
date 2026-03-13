@@ -93,7 +93,7 @@ export default function RegisterPage() {
     if (isLoggedIn) return null;
 
     return (
-        <main className="min-h-screen flex flex-col relative">
+        <div className="min-h-screen flex flex-col relative">
             {/* Background Image with Brand Overlay */}
             <div className="absolute inset-0 z-0">
                 <div
@@ -239,6 +239,6 @@ export default function RegisterPage() {
 
                 <RegistrationAlert />
             </div>
-        </main>
+        </div>
     );
 }

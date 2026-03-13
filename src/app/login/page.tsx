@@ -77,7 +77,7 @@ export default function LoginPage() {
     if (isLoggedIn) return null;
 
     return (
-        <main className={`min-h-screen flex flex-col relative transition-opacity duration-500 ${isLoggingIn ? 'opacity-50' : 'opacity-100'}`}>
+        <div className={`min-h-screen flex flex-col relative transition-opacity duration-500 ${isLoggingIn ? 'opacity-50' : 'opacity-100'}`}>
             {/* Background Image with Brand Overlay */}
             <div className="absolute inset-0 z-0">
                 <div
@@ -212,6 +212,6 @@ export default function LoginPage() {
 
                 <RegistrationAlert />
             </div>
-        </main>
+        </div>
     );
 }

@@ -24,6 +24,7 @@ import { UIProvider } from '@/context/UIContext'
 import SearchModal from '@/components/SearchModal'
 import SideMenu from '@/components/SideMenu'
 import MobileNav from '@/components/MobileNav'
+import MainLayout from '@/components/MainLayout'
 
 export default function RootLayout({
   children,
@@ -37,7 +38,9 @@ export default function RootLayout({
           <AuthProvider>
             <MessageProvider>
               <UIProvider>
-                {children}
+                <MainLayout>
+                  {children}
+                </MainLayout>
                 <Footer />
                 <MobileNav />
               </UIProvider>

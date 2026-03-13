@@ -123,7 +123,7 @@ function DiscoveryPageContent() {
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
     return (
-        <main className="min-h-screen pb-20">
+        <div className="min-h-screen">
             <Navbar />
             <div className="pt-32 px-6 max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
@@ -336,7 +336,7 @@ function DiscoveryPageContent() {
                 isOpen={!!selectedProfile}
                 onClose={() => setSelectedProfile(null)}
             />
-        </main>
+        </div>
     );
 }
 
