@@ -160,7 +160,7 @@ export default function ChatInterface() {
                     </div>
 
                     {/* Messages Area */}
-                    <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+                    <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 space-y-4">
                         {messages.map((msg) => (
                             <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`max-w-[75%] rounded-2xl px-5 py-3 ${msg.isMe
@@ -238,9 +238,9 @@ export default function ChatInterface() {
                                 placeholder="Type a message..."
                                 className="flex-1 bg-slate-800/50 border border-slate-700 rounded-full px-6 py-3 focus:outline-none focus:border-rose-500 transition-colors text-white"
                             />
-                            <button type="submit" className="btn-primary rounded-full w-12 h-12 flex items-center justify-center p-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                            <button type="submit" className="btn-primary rounded-full w-12 h-12 flex items-center justify-center p-0 shadow-lg shadow-rose-500/20 active:scale-95 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                    <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.163a.75.75 0 00.63.492l7.163.75a.75.75 0 010 1.5l-7.163.75a.75.75 0 00-.63.492L2.552 20.66a.75.75 0 00.926.94l18.392-8.332a.75.75 0 000-1.363L3.478 2.405z" />
                                 </svg>
                             </button>
                         </form>
