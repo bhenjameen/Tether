@@ -13,9 +13,20 @@ const MOCK_MESSAGES = [
 
 export default function ChatInterface() {
     const [messages, setMessages] = useState(MOCK_MESSAGES);
+    const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
     const [input, setInput] = useState('');
     const [activeGame, setActiveGame] = useState<null | 'trivia' | 'tictactoe'>(null);
     const [showGameMenu, setShowGameMenu] = useState(false);
+
+    const CHAT_LIST = [
+        { id: '1', name: 'Amara', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80', verified: true, lastMsg: 'That sounds exciting! What kind of project?', time: '10:33 AM', unread: false },
+        { id: '2', name: 'Sarah', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80', verified: true, lastMsg: 'Hey! Are you coming to the event?', time: '9:45 AM', unread: true },
+        { id: '3', name: 'Michael', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80', verified: false, lastMsg: 'Sent you those photos we talked about.', time: 'Yesterday', unread: true },
+        { id: '4', name: 'Jessica', img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&q=80', verified: true, lastMsg: 'See you then!', time: 'Monday', unread: false },
+        { id: '5', name: 'Emma', img: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&q=80', verified: true, lastMsg: 'That song is actually really good.', time: '2 days ago', unread: true }
+    ];
+
+    const activeChat = CHAT_LIST.find(c => c.id === selectedChatId) || CHAT_LIST[0];
 
     const handleSend = (e: React.FormEvent) => {
         e.preventDefault();
@@ -36,7 +47,7 @@ export default function ChatInterface() {
         setTimeout(() => {
             setMessages(prev => [...prev, {
                 id: `msg-${Date.now()}-${Math.random()}`,
-                sender: 'Amara',
+                sender: activeChat.name,
                 text: 'That is really interesting! Tell me more.',
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 isMe: false,
@@ -59,64 +70,80 @@ export default function ChatInterface() {
     return (
         <div className="flex h-[calc(100vh-128px)] md:h-[calc(100vh-160px)] md:glass-panel overflow-hidden bg-slate-950 md:bg-transparent border-t border-white/5 md:border-none">
             {/* Sidebar - Chat List */}
-            <div className="w-80 border-r border-slate-700/50 hidden md:flex flex-col">
+            <div className={`w-full md:w-80 border-r border-slate-700/50 flex flex-col ${selectedChatId ? 'hidden md:flex' : 'flex'}`}>
                 <div className="p-4 border-b border-slate-700/50">
                     <h2 className="font-bold text-lg">Messages</h2>
                 </div>
                 <div className="overflow-y-auto flex-1">
-                    {[
-                        { name: 'Amara', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80', verified: true, lastMsg: 'That sounds exciting! What kind of project?', time: '10:33 AM', unread: false },
-                        { name: 'Sarah', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80', verified: true, lastMsg: 'Hey! Are you coming to the event?', time: '9:45 AM', unread: true },
-                        { name: 'Michael', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80', verified: false, lastMsg: 'Sent you those photos we talked about.', time: 'Yesterday', unread: true },
-                        { name: 'Jessica', img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&q=80', verified: true, lastMsg: 'See you then!', time: 'Monday', unread: false },
-                        { name: 'Emma', img: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&q=80', verified: true, lastMsg: 'That song is actually really good.', time: '2 days ago', unread: true }
-                    ].map((user, i) => (
-                        <div key={user.name} className={`p-4 flex gap-3 hover:bg-white/5 cursor-pointer transition-colors border-b border-white/5 relative ${i === 0 ? 'bg-white/10' : ''}`}>
-                            <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border border-white/10">
-                                <Image src={user.img} alt={user.name} fill className="object-cover" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <div className="flex justify-between items-baseline mb-1">
-                                    <h3 className={`font-semibold truncate flex items-center gap-1 ${user.unread ? 'text-white' : 'text-slate-200'}`}>
-                                        {user.name}
-                                        {user.verified && (
-                                            <span className="w-3.5 h-3.5 bg-blue-500 rounded-full flex items-center justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-2.5 h-2.5 text-white">
-                                                    <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-3.946-4.654a.75.75 0 01.042 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06l1.47 1.47 2.97-2.97a.75.75 0 011.06-.042z" clipRule="evenodd" />
-                                                </svg>
-                                            </span>
+                    {CHAT_LIST.length > 0 ? (
+                        CHAT_LIST.map((user) => (
+                            <div
+                                key={user.id}
+                                onClick={() => setSelectedChatId(user.id)}
+                                className={`p-4 flex gap-3 hover:bg-white/5 cursor-pointer transition-colors border-b border-white/5 relative ${selectedChatId === user.id ? 'bg-white/10' : ''}`}
+                            >
+                                <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border border-white/10">
+                                    <Image src={user.img} alt={user.name} fill className="object-cover" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex justify-between items-baseline mb-1">
+                                        <h3 className={`font-semibold truncate flex items-center gap-1 ${user.unread ? 'text-white' : 'text-slate-200'}`}>
+                                            {user.name}
+                                            {user.verified && (
+                                                <span className="w-3.5 h-3.5 bg-blue-500 rounded-full flex items-center justify-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-2.5 h-2.5 text-white">
+                                                        <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-3.946-4.654a.75.75 0 01.042 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06l1.47 1.47 2.97-2.97a.75.75 0 011.06-.042z" clipRule="evenodd" />
+                                                    </svg>
+                                                </span>
+                                            )}
+                                        </h3>
+                                        <span className={`text-[10px] ${user.unread ? 'text-rose-400 font-bold' : 'text-slate-500'}`}>{user.time}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center gap-2">
+                                        <p className={`text-sm truncate ${user.unread ? 'text-slate-200 font-medium' : 'text-slate-500'}`}>
+                                            {user.lastMsg}
+                                        </p>
+                                        {user.unread && (
+                                            <span className="w-2 h-2 bg-rose-500 rounded-full flex-shrink-0 shadow-[0_0_8px_rgba(230,90,90,0.5)]" />
                                         )}
-                                    </h3>
-                                    <span className={`text-[10px] ${user.unread ? 'text-rose-400 font-bold' : 'text-slate-500'}`}>{user.time}</span>
-                                </div>
-                                <div className="flex justify-between items-center gap-2">
-                                    <p className={`text-sm truncate ${user.unread ? 'text-slate-200 font-medium' : 'text-slate-500'}`}>
-                                        {user.lastMsg}
-                                    </p>
-                                    {user.unread && (
-                                        <span className="w-2 h-2 bg-rose-500 rounded-full flex-shrink-0 shadow-[0_0_8px_rgba(230,90,90,0.5)]" />
-                                    )}
+                                    </div>
                                 </div>
                             </div>
+                        ))
+                    ) : (
+                        <div className="p-8 text-center">
+                            <p className="text-slate-500 text-sm">No messages at this time</p>
                         </div>
-                    ))}
+                    )}
                 </div>
             </div>
 
             {/* Main Chat Area */}
-            <div className="flex-1 flex flex-col">
+            <div className={`flex-1 flex flex-col ${selectedChatId ? 'flex' : 'hidden md:flex'}`}>
                 {/* Chat Header */}
                 <div className="p-4 border-b border-slate-700/50 flex items-center gap-3 bg-slate-950 md:bg-transparent">
-                    <div className="w-10 h-10 rounded-full overflow-hidden md:hidden relative">
-                        <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80" alt="Amara" fill className="object-cover" />
+                    {/* Back Button for Mobile */}
+                    <button
+                        onClick={() => setSelectedChatId(null)}
+                        className="md:hidden p-2 -ml-2 hover:bg-white/5 rounded-full transition-colors text-slate-400"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                        </svg>
+                    </button>
+
+                    <div className="w-10 h-10 rounded-full overflow-hidden relative border border-white/10">
+                        <Image src={activeChat.img} alt={activeChat.name} fill className="object-cover" />
                     </div>
                     <h2 className="font-bold text-lg flex items-center gap-2">
-                        Amara
-                        <span className="inline-flex items-center justify-center w-5 h-5 bg-blue-500 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 text-white">
-                                <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-3.946-4.654a.75.75 0 01.042 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06l1.47 1.47 2.97-2.97a.75.75 0 011.06-.042z" clipRule="evenodd" />
-                            </svg>
-                        </span>
+                        {activeChat.name}
+                        {activeChat.verified && (
+                            <span className="inline-flex items-center justify-center w-5 h-5 bg-blue-500 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 text-white">
+                                    <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-3.946-4.654a.75.75 0 01.042 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06l1.47 1.47 2.97-2.97a.75.75 0 011.06-.042z" clipRule="evenodd" />
+                                </svg>
+                            </span>
+                        )}
                     </h2>
                     <span className="w-2 h-2 bg-green-500 rounded-full ml-1" />
                 </div>
