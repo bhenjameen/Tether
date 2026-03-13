@@ -83,9 +83,9 @@ export default function MobileNav() {
 
     return (
         <>
-            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 px-4 pb-6 pointer-events-none">
-                <nav className="glass-panel w-full max-w-sm mx-auto px-2 py-3 shadow-2xl border border-white/10 pointer-events-auto">
-                    <div className="flex items-center justify-around">
+            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
+                <nav className="glass-panel w-full px-2 py-4 shadow-2xl border-t border-x-0 border-b-0 rounded-none border-white/10 pointer-events-auto">
+                    <div className="flex items-center justify-around max-w-lg mx-auto">
                         {navItems.map((item, idx) => (
                             item.href ? (
                                 <Link
