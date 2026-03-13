@@ -26,7 +26,7 @@ export default function FeaturedProfiles() {
     const [selectedProfile, setSelectedProfile] = useState<any>(null);
 
     return (
-        <section className="pt-10 pb-20 px-8 w-full max-w-[1800px] mx-auto">
+        <section className="pt-10 pb-20 px-6 w-full max-w-7xl mx-auto">
             <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl font-bold mb-4">
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">
@@ -39,7 +39,7 @@ export default function FeaturedProfiles() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 px-4 xl:px-20 place-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 px-6 xl:px-20 place-items-center">
                 {FEATURED_PROFILES.map((profile) => (
                     <ProfileCard
                         key={profile.id}

@@ -62,13 +62,13 @@ export default function Home() {
 
       {/* Status Creator - only for logged-in users */}
       {isLoggedIn && (
-        <div className="max-w-7xl mx-auto w-full px-4 xl:px-20 mb-8 pt-32">
+        <div className="max-w-7xl mx-auto w-full px-6 xl:px-20 mb-8 pt-32">
           <StatusCreator />
         </div>
       )}
 
       {/* Stories/Moments section - shown for all users */}
-      <div className={`max-w-7xl mx-auto w-full px-4 mb-8 ${isLoggedIn ? '' : 'pt-0'}`}>
+      <div className={`max-w-7xl mx-auto w-full px-6 mb-8 ${isLoggedIn ? '' : 'pt-0'}`}>
         <h2 className="text-xl font-semibold mb-4 text-center text-slate-200">Featured Moments</h2>
         <Stories center={true} />
       </div>
@@ -77,8 +77,8 @@ export default function Home() {
       {isLoggedIn ? (
         <>
           {/* Your Matches Section */}
-          <section className="w-full max-w-[1800px] mx-auto px-8 mb-16">
-            <div className="mb-8 px-4 xl:px-20">
+          <section className="w-full max-w-7xl mx-auto px-6 mb-16">
+            <div className="mb-8 px-6 xl:px-20">
               <h2 className="text-3xl md:text-4xl font-bold mb-3">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">
                   Your Matches
@@ -88,7 +88,7 @@ export default function Home() {
                 People who share your interests and are looking to connect. Start a conversation today!
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 xl:px-20 place-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-6 xl:px-20 place-items-center">
               {MATCHES.map((profile) => (
                 <ProfileCard
                   key={profile.id}
@@ -102,8 +102,8 @@ export default function Home() {
           </section>
 
           {/* New Users Section */}
-          <section className="w-full max-w-[1800px] mx-auto px-8 mb-20">
-            <div className="mb-8 px-4 xl:px-20">
+          <section className="w-full max-w-7xl mx-auto px-6 mb-20">
+            <div className="mb-8 px-6 xl:px-20">
               <h2 className="text-3xl md:text-4xl font-bold mb-3">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">
                   New Users
@@ -127,7 +127,7 @@ export default function Home() {
 
             {/* See More Button */}
             {!showMoreUsers && NEW_USERS.length > 12 && (
-              <div className="mt-12 flex justify-center px-4 xl:px-20">
+              <div className="mt-12 flex justify-center px-6 xl:px-20">
                 <button
                   onClick={() => setShowMoreUsers(true)}
                   className="group relative px-8 py-3 rounded-xl bg-gradient-to-r from-rose-500/10 to-amber-500/10 border border-rose-500/30 hover:border-rose-500/50 transition-all overflow-hidden"
