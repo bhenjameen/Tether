@@ -20,7 +20,7 @@ export default function MessagesPage() {
     return (
         <div className="min-h-screen pt-32">
             <Navbar />
-            <div className="max-w-7xl mx-auto px-6 h-[calc(100vh-128px)] md:h-[calc(100vh-160px)]">
+            <div className="max-w-7xl mx-auto h-[calc(100vh-128px)] md:h-[calc(100vh-160px)]">
                 <ChatInterface />
             </div>
         </div>

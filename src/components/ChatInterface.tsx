@@ -160,7 +160,7 @@ export default function ChatInterface() {
                     </div>
 
                     {/* Messages Area */}
-                    <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 space-y-4">
+                    <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
                         {messages.map((msg) => (
                             <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`max-w-[75%] rounded-2xl px-5 py-3 ${msg.isMe
@@ -213,10 +213,10 @@ export default function ChatInterface() {
                         )}
 
                         <form onSubmit={handleSend} className="flex gap-2">
-                            <button
+                             <button
                                 type="button"
                                 onClick={() => setShowGameMenu(!showGameMenu)}
-                                className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all ${showGameMenu ? 'bg-rose-600 border-rose-500 shadow-lg shadow-rose-500/20' : 'bg-slate-800 border-slate-700 hover:bg-slate-700'}`}
+                                className={`w-12 h-12 rounded-full border flex flex-shrink-0 items-center justify-center transition-all ${showGameMenu ? 'bg-rose-600 border-rose-500 shadow-lg shadow-rose-500/20' : 'bg-slate-800 border-slate-700 hover:bg-slate-700'}`}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 ${showGameMenu ? 'text-white' : 'text-slate-400'}`}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
@@ -225,7 +225,7 @@ export default function ChatInterface() {
                             <button
                                 type="button"
                                 onClick={sendImage}
-                                className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-slate-700 transition-colors"
+                                className="w-12 h-12 rounded-full flex-shrink-0 bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-slate-700 transition-colors"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-slate-400">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -236,9 +236,9 @@ export default function ChatInterface() {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder="Type a message..."
-                                className="flex-1 bg-slate-800/50 border border-slate-700 rounded-full px-6 py-3 focus:outline-none focus:border-rose-500 transition-colors text-white"
+                                className="flex-1 min-w-0 bg-slate-800/50 border border-slate-700 rounded-full px-4 md:px-6 py-3 focus:outline-none focus:border-rose-500 transition-colors text-white"
                             />
-                            <button type="submit" className="btn-primary rounded-full w-12 h-12 flex items-center justify-center p-0 shadow-lg shadow-rose-500/20 active:scale-95 transition-all">
+                            <button type="submit" className="btn-primary rounded-full w-12 h-12 flex-shrink-0 flex items-center justify-center p-0 shadow-lg shadow-rose-500/20 active:scale-95 transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                                     <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.163a.75.75 0 00.63.492l7.163.75a.75.75 0 010 1.5l-7.163.75a.75.75 0 00-.63.492L2.552 20.66a.75.75 0 00.926.94l18.392-8.332a.75.75 0 000-1.363L3.478 2.405z" />
                                 </svg>
