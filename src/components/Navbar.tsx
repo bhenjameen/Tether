@@ -13,6 +13,7 @@ import { useUI } from '@/context/UIContext';
 export default function Navbar() {
     const { data: session, status } = useSession();
     const isLoggedIn = status === 'authenticated';
+    const isLoading = status === 'loading';
     const { showToast } = useToast();
     const { unreadCount: messageCount } = useMessages();
     const { unreadCount: notificationCount } = useNotifications();
@@ -105,7 +106,9 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex gap-4">
-                    {!isLoggedIn ? (
+                    {isLoading ? (
+                        <div className="h-10 w-24 bg-white/5 animate-pulse rounded-full" />
+                    ) : !isLoggedIn ? (
                         <>
                             <Link href="/login" className="px-4 py-2 hover:bg-white/10 rounded-full transition-colors">
                                 Login

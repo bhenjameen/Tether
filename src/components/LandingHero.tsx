@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 export default function LandingHero() {
     const { status } = useSession();
     const isLoggedIn = status === 'authenticated';
+    const isLoading = status === 'loading';
 
     return (
         <div className="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden py-32">
@@ -31,13 +32,19 @@ export default function LandingHero() {
             </p>
 
             <div className="flex flex-col md:flex-row gap-6">
-                <Link href={isLoggedIn ? "/discover" : "/register"} className="btn-primary text-lg px-8 py-3 shadow-lg shadow-rose-500/25">
-                    {isLoggedIn ? "Discover Your Matches" : "Start Connecting Now"}
-                </Link>
-                {!isLoggedIn && (
-                    <Link href="/discover" className="px-8 py-3 rounded-full border border-slate-700 hover:bg-white/5 transition-all text-lg font-medium">
-                        Browse Singles
-                    </Link>
+                {isLoading ? (
+                    <div className="h-14 w-48 bg-white/5 animate-pulse rounded-full" />
+                ) : (
+                    <>
+                        <Link href={isLoggedIn ? "/discover" : "/register"} className="btn-primary text-lg px-8 py-3 shadow-lg shadow-rose-500/25">
+                            {isLoggedIn ? "Discover Your Matches" : "Start Connecting Now"}
+                        </Link>
+                        {!isLoggedIn && (
+                            <Link href="/discover" className="px-8 py-3 rounded-full border border-slate-700 hover:bg-white/5 transition-all text-lg font-medium">
+                                Browse Singles
+                            </Link>
+                        )}
+                    </>
                 )}
             </div>
 

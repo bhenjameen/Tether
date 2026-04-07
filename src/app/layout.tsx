@@ -1,9 +1,5 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 // Triggering deployment for mobile alignment standardization - 2026-03-12-2312
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Tether - Connect & Chat',
@@ -26,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className="antialiased" style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }} suppressHydrationWarning>
         <Providers>
           <MainLayout>
             {children}
