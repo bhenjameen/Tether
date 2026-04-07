@@ -1,5 +1,8 @@
-import { auth } from "@/auth";
+import authConfig from "./auth.config";
+import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
+
+const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
@@ -27,7 +30,6 @@ export default auth((req) => {
   return NextResponse.next();
 });
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
