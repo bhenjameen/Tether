@@ -1,37 +1,61 @@
 "use client";
-import React, { useMemo, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import ProfileCard from '@/components/ProfileCard';
 import ProfileModal from '@/components/ProfileModal';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useToast } from '@/context/ToastContext';
-
-// Using the same mock data for consistency
-const MOCK_PROFILES = [
-    { id: '1', name: 'Sarah', age: 24, location: 'Lagos, NG', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1000&q=80', bio: 'Art enthusiast, coffee lover. Just looking for someone to explore the galleries of Lagos with.', isVerified: true },
-    { id: '2', name: 'Michael', age: 28, location: 'Abuja, NG', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=1000&q=80', bio: 'Tech entrepreneur. Always working on the next big thing, but I make time for the gym and great conversation.' },
-    { id: '3', name: 'Amara', age: 23, location: 'Port Harcourt, NG', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1000&q=80', bio: 'Fashion designer. I love vibrant colors and bold patterns. Let’s create something beautiful together.', isVerified: true },
-    { id: '4', name: 'David', age: 30, location: 'Lagos, NG', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=1000&q=80', bio: 'Music producer. Life is a song, and I’m looking for someone to share the rhythm with.' },
-    { id: '5', name: 'Zainab', age: 26, location: 'Kano, NG', image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1000&q=80', bio: 'Medical student with a passion for helping others.' },
-    { id: '6', name: 'Emmanuel', age: 29, location: 'Enugu, NG', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&q=80', bio: 'Architect designing future spaces.' },
-    { id: '7', name: 'Ngozi', age: 25, location: 'Owerri', image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1000&q=80', bio: 'Model and entrepreneur.' },
-    { id: '8', name: 'Tunde', age: 29, location: 'Ibadan', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1000&q=80', bio: 'Software engineer. Code and coffee.' },
-    { id: '101', name: 'Jessica', age: 24, location: 'Lagos', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1000&q=80', bio: 'Love traveling and trying new food. If you know a good spot, let me know!', isVerified: true },
-    { id: '102', name: 'David_A', age: 29, location: 'Abuja', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=1000&q=80', bio: 'Tech enthusiast and gym rat. Balance is everything.' },
-];
 
 export default function UserProfilePage() {
     const params = useParams();
     const router = useRouter();
-    const { isLoggedIn } = useAuth();
+    const { data: session, status } = useSession();
     const { showToast } = useToast();
-    const slug = params?.slug as string;
+    const id = params?.slug as string;
+    
+    const [profile, setProfile] = useState<any>(null);
+    const [relatedProfiles, setRelatedProfiles] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedRelatedProfile, setSelectedRelatedProfile] = useState<any>(null);
 
+    // Initial Fetch
+    useEffect(() => {
+        if (id) {
+            fetchProfile();
+            fetchRelatedProfiles();
+        }
+    }, [id]);
+
+    const fetchProfile = async () => {
+        try {
+            const response = await fetch(`/api/profiles/${id}`);
+            const data = await response.json();
+            if (data.id) {
+                setProfile(data);
+            }
+        } catch (error) {
+            console.error('Failed to fetch profile');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const fetchRelatedProfiles = async () => {
+        try {
+            const response = await fetch('/api/profiles');
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                setRelatedProfiles(data.filter((p: any) => p.id !== id).slice(0, 4));
+            }
+        } catch (error) {
+            console.error('Failed to fetch related profiles');
+        }
+    };
+
     const handleProtectedAction = (action: () => void) => {
-        if (!isLoggedIn) {
+        if (status === 'unauthenticated') {
             showToast("Please log in to continue", "warning");
             router.push('/login');
             return;
@@ -39,13 +63,18 @@ export default function UserProfilePage() {
         action();
     };
 
-    const profile = useMemo(() => {
-        return MOCK_PROFILES.find(p => p.name.toLowerCase().replace(/ /g, '-') === slug) || MOCK_PROFILES[0];
-    }, [slug]);
+    if (isLoading || status === 'loading') {
+        return <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">Loading Profile...</div>;
+    }
 
-    const relatedProfiles = useMemo(() => {
-        return MOCK_PROFILES.filter(p => p.id !== profile.id).slice(0, 8);
-    }, [profile.id]);
+    if (!profile) {
+        return (
+            <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white gap-4">
+                <h1 className="text-2xl font-bold">Profile not found</h1>
+                <button onClick={() => router.push('/discover')} className="text-rose-400 hover:underline">Back to Discover</button>
+            </div>
+        );
+    }
 
     return (
         <main className="min-h-screen bg-slate-950 pb-24">

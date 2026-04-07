@@ -14,15 +14,8 @@ export const metadata: Metadata = {
   },
 }
 
-import { AuthProvider } from '@/context/AuthContext'
-
-import { ToastProvider } from '@/context/ToastContext'
-import { MessageProvider } from '@/context/MessageContext'
+import { Providers } from '@/components/Providers'
 import Footer from '@/components/Footer'
-
-import { UIProvider } from '@/context/UIContext'
-import SearchModal from '@/components/SearchModal'
-import SideMenu from '@/components/SideMenu'
 import MobileNav from '@/components/MobileNav'
 import MainLayout from '@/components/MainLayout'
 
@@ -34,19 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <ToastProvider>
-          <AuthProvider>
-            <MessageProvider>
-              <UIProvider>
-                <MainLayout>
-                  {children}
-                </MainLayout>
-                <Footer />
-                <MobileNav />
-              </UIProvider>
-            </MessageProvider>
-          </AuthProvider>
-        </ToastProvider>
+        <Providers>
+          <MainLayout>
+            {children}
+          </MainLayout>
+          <Footer />
+          <MobileNav />
+        </Providers>
       </body>
     </html>
   )

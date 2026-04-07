@@ -1,26 +1,63 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-
-const MOCK_STORIES = [
-    { id: '1', name: 'Your Story', image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&q=80', isMe: true },
-    { id: '2', name: 'Amara', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80' },
-    { id: '3', name: 'Sarah', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80' },
-    { id: '4', name: 'Jessica', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80' },
-    { id: '5', name: 'Amina', image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&q=80' },
-    { id: '6', name: 'Grace', image: 'https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?w=200&q=80' },
-    { id: '7', name: 'Ngozi', image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&q=80' },
-    { id: '8', name: 'Chioma', image: 'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?w=200&q=80' },
-];
+import { useSession } from 'next-auth/react';
 
 export default function Stories({ center = false }: { center?: boolean }) {
+    const { data: session } = useSession();
+    const [stories, setStories] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchStories = async () => {
+            try {
+                const response = await fetch('/api/profiles');
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    // Just take a few for the stories bar
+                    setStories(data.slice(0, 10));
+                }
+            } catch (error) {
+                console.error('Failed to fetch stories');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchStories();
+    }, []);
+
+    const allStories = [
+        { 
+          id: 'me', 
+          name: 'Your Story', 
+          image: session?.user?.image || 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&q=80', 
+          isMe: true 
+        },
+        ...stories.filter(s => s.id !== session?.user?.id).map(s => ({
+            id: s.id,
+            name: s.name.split(' ')[0],
+            image: s.image,
+            isMe: false
+        }))
+    ];
+
+    if (isLoading) {
+        return (
+            <div className="w-full py-6 flex gap-4 overflow-x-auto px-4 md:px-0">
+                {[1, 2, 3, 4, 5].map(i => (
+                    <div key={i} className="w-20 h-20 rounded-full bg-white/5 animate-pulse shrink-0" />
+                ))}
+            </div>
+        );
+    }
+
     return (
         <div className="w-full py-6">
             <div className={`flex gap-4 overflow-x-auto pb-2 scrollbar-hide px-4 md:px-0 ${center ? 'md:justify-center' : ''}`}>
-                {MOCK_STORIES.map((story) => (
+                {allStories.map((story) => (
                     <div key={story.id} className="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group">
                         <div className={`relative w-20 h-20 rounded-full p-1 ${story.isMe ? 'bg-slate-700' : 'bg-gradient-to-tr from-rose-500 to-amber-500'}`}>
-                            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-slate-950">
+                            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-slate-950 bg-slate-900">
                                 <Image
                                     src={story.image}
                                     alt={story.name}

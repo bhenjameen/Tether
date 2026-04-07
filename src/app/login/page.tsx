@@ -6,7 +6,7 @@ import Navbar from '@/components/Navbar';
 import Stories from '@/components/Stories';
 import ProfileCard from '@/components/ProfileCard';
 import RegistrationAlert from '@/components/RegistrationAlert';
-import { useAuth } from '@/context/AuthContext';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 const BACKGROUND_PROFILES = [
@@ -25,20 +25,12 @@ const BACKGROUND_PROFILES = [
 ];
 
 export default function LoginPage() {
-    const { login, isLoggedIn } = useAuth();
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [shouldShake, setShouldShake] = useState(false);
-
-    // Redirect if already logged in
-    useEffect(() => {
-        if (isLoggedIn) {
-            router.push('/');
-        }
-    }, [isLoggedIn, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,23 +39,20 @@ export default function LoginPage() {
         setShouldShake(false);
 
         try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
+            const result = await signIn('credentials', {
+                email,
+                password,
+                redirect: false,
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
-                login(data.user);
-                router.push('/discover');
-            } else {
-                setError(data.error || 'Login failed. Please try again.');
+            if (result?.error) {
+                setError('Invalid email or password');
                 setIsLoggingIn(false);
                 setShouldShake(true);
-                // Reset shake after animation completes
                 setTimeout(() => setShouldShake(false), 500);
+            } else {
+                router.push('/discover');
+                router.refresh();
             }
         } catch (err) {
             setError('Something went wrong. Please check your connection.');
@@ -73,9 +62,11 @@ export default function LoginPage() {
         }
     };
 
-    // Don't render the page if already logged in
-    if (isLoggedIn) return null;
+    const handleGoogleLogin = () => {
+        signIn('google', { callbackUrl: '/discover' });
+    };
 
+    // Don't render the page wrapper until layout handles focus
     return (
         <div className={`min-h-screen flex flex-col relative transition-opacity duration-500 ${isLoggingIn ? 'opacity-50' : 'opacity-100'}`}>
             {/* Background Image with Brand Overlay */}
@@ -189,7 +180,11 @@ export default function LoginPage() {
                                                 </svg>
                                                 Google
                                             </button>
-                                            <button className="flex items-center justify-center gap-3 bg-white/5 border border-slate-700 hover:bg-white/10 py-3.5 lg:py-2 rounded-xl transition-colors text-sm lg:text-xs text-slate-300">
+                                            <button 
+                                                type="button"
+                                                onClick={handleGoogleLogin}
+                                                className="flex items-center justify-center gap-3 bg-white/5 border border-slate-700 hover:bg-white/10 py-3.5 lg:py-2 rounded-xl transition-colors text-sm lg:text-xs text-slate-300"
+                                            >
                                                 <svg className="w-5 h-5 lg:w-4 lg:h-4" viewBox="0 0 24 24">
                                                     <path fill="currentColor" d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12c0-5.523-4.477-10-10-10z" />
                                                 </svg>

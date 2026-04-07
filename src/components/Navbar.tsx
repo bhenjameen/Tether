@@ -3,16 +3,19 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import SearchModal from './SearchModal';
 import SideMenu from './SideMenu';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/context/ToastContext';
 import { useMessages } from '@/context/MessageContext';
+import { useNotifications } from '@/context/NotificationContext';
 import { useUI } from '@/context/UIContext';
 
 export default function Navbar() {
-    const { isLoggedIn } = useAuth();
+    const { data: session, status } = useSession();
+    const isLoggedIn = status === 'authenticated';
     const { showToast } = useToast();
-    const { unreadCount } = useMessages();
+    const { unreadCount: messageCount } = useMessages();
+    const { unreadCount: notificationCount } = useNotifications();
     const router = useRouter();
     const { isSearchOpen, setIsSearchOpen, isMenuOpen, setIsMenuOpen } = useUI();
 
@@ -72,9 +75,11 @@ export default function Navbar() {
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                                     </svg>
-                                    <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-tr from-rose-500 to-amber-500 text-[9px] font-bold text-white shadow-sm ring-1 ring-slate-950/50 animate-pulse">
-                                        3
-                                    </span>
+                                    {isLoggedIn && notificationCount > 0 && (
+                                        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-tr from-rose-500 to-amber-500 text-[9px] font-bold text-white shadow-sm ring-1 ring-slate-950/50 animate-pulse">
+                                            {notificationCount}
+                                        </span>
+                                    )}
                                 </div>
                                 <span>Notifications</span>
                             </Link>
@@ -89,9 +94,9 @@ export default function Navbar() {
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                             </svg>
-                            {isLoggedIn && unreadCount > 0 && (
+                             {isLoggedIn && messageCount > 0 && (
                                 <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-tr from-rose-500 to-amber-500 text-[9px] font-bold text-white shadow-sm ring-1 ring-slate-950/50">
-                                    {unreadCount}
+                                    {messageCount}
                                 </span>
                             )}
                         </div>
@@ -115,8 +120,12 @@ export default function Navbar() {
                                 onClick={() => setIsMenuOpen(true)}
                                 className="flex items-center gap-2 pl-2 pr-4 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-rose-500/50 transition-all group"
                             >
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-[10px] font-bold shadow-lg group-hover:scale-110 transition-transform">
-                                    ME
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-[10px] font-bold shadow-lg group-hover:scale-110 transition-transform overflow-hidden">
+                                    {session?.user?.image ? (
+                                        <img src={session.user.image} alt={session.user.name || 'User'} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <span>{session?.user?.name?.slice(0, 2).toUpperCase() || 'ME'}</span>
+                                    )}
                                 </div>
                                 <span className="text-sm font-medium">Menu</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-300 ${isMenuOpen ? 'rotate-180' : ''}`}>

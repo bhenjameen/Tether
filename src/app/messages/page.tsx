@@ -2,18 +2,19 @@
 import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import ChatInterface from '@/components/ChatInterface';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function MessagesPage() {
-    const { isLoggedIn } = useAuth();
+    const { status } = useSession();
+    const isLoggedIn = status === 'authenticated';
     const router = useRouter();
 
     useEffect(() => {
-        if (!isLoggedIn) {
+        if (status === 'unauthenticated') {
             router.push('/login');
         }
-    }, [isLoggedIn, router]);
+    }, [status, router]);
 
     if (!isLoggedIn) return null;
 

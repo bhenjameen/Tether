@@ -2,15 +2,18 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useMessages } from '@/context/MessageContext';
+import { useNotifications } from '@/context/NotificationContext';
 import { useUI } from '@/context/UIContext';
 import SearchModal from './SearchModal';
 import SideMenu from './SideMenu';
 
 export default function MobileNav() {
-    const { isLoggedIn } = useAuth();
-    const { unreadCount } = useMessages();
+    const { data: session, status } = useSession();
+    const isLoggedIn = status === 'authenticated';
+    const { unreadCount: messageCount } = useMessages();
+    const { unreadCount: notificationCount } = useNotifications();
     const { isSearchOpen, setIsSearchOpen, isMenuOpen, setIsMenuOpen } = useUI();
     const pathname = usePathname();
 
@@ -45,9 +48,9 @@ export default function MobileNav() {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                     </svg>
-                    {unreadCount > 0 && (
+                    {messageCount > 0 && (
                         <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-tr from-rose-500 to-amber-500 text-[10px] font-bold text-white shadow-sm ring-1 ring-slate-950/50">
-                            {unreadCount}
+                            {messageCount}
                         </span>
                     )}
                 </div>
@@ -62,9 +65,11 @@ export default function MobileNav() {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                     </svg>
-                    <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-tr from-rose-500 to-amber-500 text-[10px] font-bold text-white shadow-sm ring-1 ring-slate-950/50">
-                        3
-                    </span>
+                    {notificationCount > 0 && (
+                        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-tr from-rose-500 to-amber-500 text-[10px] font-bold text-white shadow-sm ring-1 ring-slate-950/50">
+                            {notificationCount}
+                        </span>
+                    )}
                 </div>
             ),
             active: pathname === '/notifications'
@@ -72,8 +77,12 @@ export default function MobileNav() {
         {
             label: 'Menu',
             icon: (
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-[10px] font-bold shadow-lg">
-                    ME
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-[10px] font-bold shadow-lg overflow-hidden">
+                    {session?.user?.image ? (
+                        <img src={session.user.image} alt={session.user.name || 'User'} className="w-full h-full object-cover" />
+                    ) : (
+                        <span>{session?.user?.name?.slice(0, 2).toUpperCase() || 'ME'}</span>
+                    )}
                 </div>
             ),
             onClick: () => setIsMenuOpen(true),

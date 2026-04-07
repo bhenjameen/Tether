@@ -6,24 +6,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 import ProfileModal from '@/components/ProfileModal';
 
-const MOCK_PROFILES = [
-    { id: '1', name: 'Sarah', age: 24, location: 'Lagos, NG', gender: 'female', hasPhoto: true, image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&q=80', bio: 'Art enthusiast, coffee lover.', isVerified: true },
-    { id: '2', name: 'Michael', age: 28, location: 'Abuja, NG', gender: 'male', hasPhoto: true, image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&q=80', bio: 'Tech entrepreneur.' },
-    { id: '3', name: 'Amara', age: 23, location: 'Port Harcourt, NG', gender: 'female', hasPhoto: true, image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80', bio: 'Fashion designer.', isVerified: true },
-    { id: '4', name: 'David', age: 30, location: 'Lagos, NG', gender: 'male', hasPhoto: true, image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80', bio: 'Music producer.' },
-    { id: '5', name: 'Zainab', age: 26, location: 'Kano, NG', gender: 'female', hasPhoto: true, image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=500&q=80', bio: 'Medical student.' },
-    { id: '6', name: 'Emmanuel', age: 29, location: 'Enugu, NG', gender: 'male', hasPhoto: true, image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80', bio: 'Architect.' },
-    { id: '7', name: 'Ngozi', age: 25, location: 'Owerri', gender: 'female', hasPhoto: true, image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&q=80', bio: 'Model and entrepreneur.' },
-    { id: '8', name: 'Tunde', age: 29, location: 'Ibadan', gender: 'male', hasPhoto: true, image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&q=80', bio: 'Software engineer.' },
-    { id: '9', name: 'Fatima', age: 24, location: 'Sokoto', gender: 'female', hasPhoto: true, image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&q=80', bio: 'Artist painting my own path.' },
-    { id: '10', name: 'Samuel', age: 32, location: 'Lagos', gender: 'male', hasPhoto: true, image: 'https://images.unsplash.com/photo-1480429370139-e0132c086e2a?w=500&q=80', bio: 'Businessman.' },
-    { id: '11', name: 'Grace', age: 23, location: 'Benin City', gender: 'female', hasPhoto: true, image: 'https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?w=500&q=80', bio: 'Nurse.', isVerified: true },
-    { id: '12', name: 'Alex', age: 28, location: 'Jos', gender: 'male', hasPhoto: true, image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=500&q=80', bio: 'Adventure seeker.' },
-    { id: '13', name: 'Chioma', age: 25, location: 'Asaba', gender: 'female', hasPhoto: false, image: 'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?w=200&q=80', bio: 'Dancer.' },
-    { id: '14', name: 'Michael', age: 27, location: 'Calabar', gender: 'male', hasPhoto: true, image: 'https://images.unsplash.com/photo-1463453091185-61582044d556?w=200&q=80', bio: 'Writer.' },
-    { id: '15', name: 'Jessica', age: 24, location: 'Lagos', gender: 'female', hasPhoto: true, image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80', bio: 'Love traveling.' },
-    { id: '16', name: 'Emeka', age: 28, location: 'Enugu', gender: 'male', hasPhoto: true, image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80', bio: 'Architect.' },
-];
+
 
 const ITEMS_PER_PAGE = 8;
 const LOCATIONS = ['All Locations', 'Lagos', 'Abuja', 'Port Harcourt', 'Kano', 'Enugu', 'Ibadan'];
@@ -38,6 +21,8 @@ function SearchPageContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
+    const [profiles, setProfiles] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [sortBy, setSortBy] = useState('default');
     const [filterVerified, setFilterVerified] = useState(false);
@@ -49,6 +34,24 @@ function SearchPageContent() {
     const [showSort, setShowSort] = useState(false);
     const [selectedProfile, setSelectedProfile] = useState<any>(null);
     const sortRef = useRef<HTMLDivElement>(null);
+
+    // Fetch initial data
+    useEffect(() => {
+        const fetchProfiles = async () => {
+            try {
+                const response = await fetch('/api/profiles');
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    setProfiles(data);
+                }
+            } catch (error) {
+                console.error('Failed to fetch profiles');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchProfiles();
+    }, []);
 
     // Handle clicking outside of dropdowns
     useEffect(() => {
@@ -86,10 +89,10 @@ function SearchPageContent() {
 
     // Derived Data: Filtered and Sorted Profiles
     const processedProfiles = useMemo(() => {
-        let results = [...MOCK_PROFILES];
+        let results = [...profiles];
 
         if (filterVerified) results = results.filter(p => p.isVerified);
-        if (filterLocation !== 'All Locations') results = results.filter(p => p.location.includes(filterLocation));
+        if (filterLocation !== 'All Locations') results = results.filter(p => p.location.toLowerCase().includes(filterLocation.toLowerCase()));
         if (filterAgeRange.label !== 'All Ages') {
             results = results.filter(p => p.age >= filterAgeRange.min && p.age <= filterAgeRange.max);
         }
@@ -104,7 +107,7 @@ function SearchPageContent() {
         }
 
         return results;
-    }, [sortBy, filterVerified, filterLocation, filterAgeRange, filterGender, filterPhotoOnly]);
+    }, [profiles, sortBy, filterVerified, filterLocation, filterAgeRange, filterGender, filterPhotoOnly]);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -224,7 +227,12 @@ function SearchPageContent() {
                     </div>
                 </div>
 
-                {currentProfiles.length > 0 ? (
+                {isLoading ? (
+                    <div className="py-20 flex flex-col items-center justify-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-rose-500 mb-4"></div>
+                        <p className="text-slate-400">Finding matches...</p>
+                    </div>
+                ) : currentProfiles.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center">
                         {currentProfiles.map((profile) => (
                             <ProfileCard

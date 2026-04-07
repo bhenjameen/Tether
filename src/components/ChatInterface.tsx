@@ -1,80 +1,101 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import TriviaGame from './games/TriviaGame';
 import TicTacToe from './games/TicTacToe';
+import { useSession } from 'next-auth/react';
+import { pusherClient } from '@/lib/pusher';
 
-const MOCK_MESSAGES = [
-    { id: '1', sender: 'Amara', text: 'Hey there! How is your day going?', time: '10:30 AM', isMe: false },
-    { id: '2', sender: 'You', text: 'Hi Amara! It\'s going great, thanks. Just working on a cool project.', time: '10:32 AM', isMe: true },
-    { id: '3', sender: 'Amara', text: 'That sounds exciting! What kind of project?', time: '10:33 AM', isMe: false },
-    { id: '4', sender: 'Amara', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80', time: '10:35 AM', isMe: false },
-];
+interface Message {
+    id: string;
+    senderId: string;
+    text?: string;
+    image?: string;
+    createdAt: string;
+}
+
+interface Conversation {
+    id: string;
+    participants: any[];
+    messages: Message[];
+    updatedAt: string;
+}
 
 export default function ChatInterface() {
-    const [messages, setMessages] = useState(MOCK_MESSAGES);
+    const { data: session } = useSession();
+    const [conversations, setConversations] = useState<Conversation[]>([]);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
     const [input, setInput] = useState('');
     const [activeGame, setActiveGame] = useState<null | 'trivia' | 'tictactoe'>(null);
     const [showGameMenu, setShowGameMenu] = useState(false);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // Escape key to deselect chat
-    React.useEffect(() => {
-        const handleEsc = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') setSelectedChatId(null);
+    // Initial Fetch: Conversations
+    useEffect(() => {
+        if (session?.user) {
+            fetchConversations();
+        }
+    }, [session]);
+
+    // Fetch Messages when chat selected + Subscribe to Pusher
+    useEffect(() => {
+        if (!selectedChatId) return;
+
+        fetchMessages(selectedChatId);
+
+        const channel = pusherClient.subscribe(`conversation-${selectedChatId}`);
+        channel.bind('new-message', (message: Message) => {
+            setMessages(prev => [...prev, message]);
+        });
+
+        return () => {
+            pusherClient.unsubscribe(`conversation-${selectedChatId}`);
         };
-        window.addEventListener('keydown', handleEsc);
-        return () => window.removeEventListener('keydown', handleEsc);
-    }, []);
+    }, [selectedChatId]);
 
-    const CHAT_LIST = [
-        { id: '1', name: 'Amara', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80', verified: true, lastMsg: 'That sounds exciting! What kind of project?', time: '10:33 AM', unread: false },
-        { id: '2', name: 'Sarah', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80', verified: true, lastMsg: 'Hey! Are you coming to the event?', time: '9:45 AM', unread: true },
-        { id: '3', name: 'Michael', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80', verified: false, lastMsg: 'Sent you those photos we talked about.', time: 'Yesterday', unread: true },
-        { id: '4', name: 'Jessica', img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&q=80', verified: true, lastMsg: 'See you then!', time: 'Monday', unread: false },
-        { id: '5', name: 'Emma', img: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&q=80', verified: true, lastMsg: 'That song is actually really good.', time: '2 days ago', unread: true }
-    ];
+    // Scroll to bottom
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
-    const activeChat = CHAT_LIST.find(c => c.id === selectedChatId) || CHAT_LIST[0];
+    const fetchConversations = async () => {
+        const res = await fetch('/api/messages');
+        const data = await res.json();
+        if (Array.isArray(data)) setConversations(data);
+    };
 
-    const handleSend = (e: React.FormEvent) => {
+    const fetchMessages = async (id: string) => {
+        const res = await fetch(`/api/messages/${id}`);
+        const data = await res.json();
+        if (Array.isArray(data)) setMessages(data);
+    };
+
+    const handleSend = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!input.trim()) return;
+        if (!input.trim() || !selectedChatId) return;
 
-        const newMessage = {
-            id: `msg-${Date.now()}-${Math.random()}`,
-            sender: 'You',
-            text: input,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            isMe: true,
-        };
+        const currentChat = conversations.find(c => c.id === selectedChatId);
+        const recipient = currentChat?.participants.find(p => p.id !== session?.user?.id);
 
-        setMessages([...messages, newMessage]);
-        setInput('');
-
-        // Simulate reply
-        setTimeout(() => {
-            setMessages(prev => [...prev, {
-                id: `msg-${Date.now()}-${Math.random()}`,
-                sender: activeChat.name,
-                text: 'That is really interesting! Tell me more.',
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                isMe: false,
-            }]);
-        }, 2000);
+        try {
+            await fetch('/api/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    conversationId: selectedChatId,
+                    text: input,
+                    receiverId: recipient?.id
+                }),
+            });
+            setInput('');
+        } catch (error) {
+            console.error('Failed to send message');
+        }
     };
 
-    const sendImage = () => {
-        // Mock sending an image
-        const newMessage = {
-            id: `msg-img-${Date.now()}`,
-            sender: 'You',
-            image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80',
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            isMe: true,
-        };
-        setMessages([...messages, newMessage]);
-    };
+    const activeChat = conversations.find(c => c.id === selectedChatId);
+    const otherUser = activeChat?.participants.find(p => p.id !== session?.user?.id);
 
     return (
         <div className="flex h-full md:glass-panel overflow-hidden bg-slate-950 md:bg-transparent border-t border-white/5 md:border-none">
@@ -84,215 +105,97 @@ export default function ChatInterface() {
                     <h2 className="font-bold text-lg text-slate-100">Messages</h2>
                 </div>
                 <div className="overflow-y-auto flex-1">
-                    {CHAT_LIST.length > 0 ? (
-                        CHAT_LIST.map((user) => (
-                            <div
-                                key={user.id}
-                                onClick={() => setSelectedChatId(user.id)}
-                                className={`px-6 py-4 flex gap-3 hover:bg-white/5 cursor-pointer transition-colors border-b border-white/5 relative ${selectedChatId === user.id ? 'bg-white/10' : ''}`}
-                            >
-                                <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border border-white/10">
-                                    <Image src={user.img} alt={user.name} fill className="object-cover" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex justify-between items-baseline mb-1">
-                                        <h3 className={`font-semibold truncate flex items-center gap-1 ${user.unread ? 'text-white' : 'text-slate-200'}`}>
-                                            {user.name}
-                                            {user.verified && (
-                                                <span className="w-3.5 h-3.5 bg-blue-500 rounded-full flex items-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-2.5 h-2.5 text-white">
-                                                        <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-3.946-4.654a.75.75 0 01.042 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06l1.47 1.47 2.97-2.97a.75.75 0 011.06-.042z" clipRule="evenodd" />
-                                                    </svg>
-                                                </span>
-                                            )}
-                                        </h3>
-                                        <span className={`text-[10px] ${user.unread ? 'text-rose-400 font-bold' : 'text-slate-500'}`}>{user.time}</span>
+                    {conversations.length > 0 ? (
+                        conversations.map((chat) => {
+                            const participant = chat.participants.find(p => p.id !== session?.user?.id);
+                            return (
+                                <div
+                                    key={chat.id}
+                                    onClick={() => setSelectedChatId(chat.id)}
+                                    className={`px-6 py-4 flex gap-3 hover:bg-white/5 cursor-pointer transition-colors border-b border-white/5 relative ${selectedChatId === chat.id ? 'bg-white/10' : ''}`}
+                                >
+                                    <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border border-white/10">
+                                        <Image src={participant?.image || 'https://via.placeholder.com/100'} alt={participant?.name || 'User'} fill className="object-cover" />
                                     </div>
-                                    <div className="flex justify-between items-center gap-2">
-                                        <p className={`text-sm truncate ${user.unread ? 'text-slate-200 font-medium' : 'text-slate-500'}`}>
-                                            {user.lastMsg}
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex justify-between items-baseline mb-1">
+                                            <h3 className="font-semibold truncate text-white">
+                                                {participant?.name || 'Unknown'}
+                                            </h3>
+                                        </div>
+                                        <p className="text-sm truncate text-slate-500">
+                                            {chat.messages[0]?.text || 'No messages yet'}
                                         </p>
-                                        {user.unread && (
-                                            <span className="w-2 h-2 bg-rose-500 rounded-full flex-shrink-0 shadow-[0_0_8px_rgba(230,90,90,0.5)]" />
-                                        )}
                                     </div>
                                 </div>
-                            </div>
-                        ))
+                            );
+                        })
                     ) : (
-                        <div className="p-8 text-center">
-                            <p className="text-slate-500 text-sm">No messages at this time</p>
-                        </div>
+                        <div className="p-8 text-center text-slate-500 text-sm">No conversations yet</div>
                     )}
                 </div>
             </div>
 
             {/* Main Chat Area */}
-            {selectedChatId ? (
+            {selectedChatId && otherUser ? (
                 <div className="flex-1 flex flex-col">
                     {/* Chat Header */}
                     <div className="px-6 py-4 border-b border-slate-700/50 flex items-center gap-3 bg-slate-950 md:bg-transparent">
-                        {/* Back Button for All Sizes */}
-                        <button
-                            onClick={() => setSelectedChatId(null)}
-                            className="p-2 -ml-2 hover:bg-white/5 rounded-full transition-colors text-slate-400 group"
-                            title="Back (Esc)"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 transform group-hover:-translate-x-1 transition-transform">
+                        <button onClick={() => setSelectedChatId(null)} className="p-2 -ml-2 text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                             </svg>
                         </button>
-
                         <div className="w-10 h-10 rounded-full overflow-hidden relative border border-white/10">
-                            <Image src={activeChat.img} alt={activeChat.name} fill className="object-cover" />
+                            <Image src={otherUser.image || 'https://via.placeholder.com/100'} alt={otherUser.name} fill className="object-cover" />
                         </div>
-                        <h2 className="font-bold text-lg flex items-center gap-2">
-                            {activeChat.name}
-                            {activeChat.verified && (
-                                <span className="inline-flex items-center justify-center w-5 h-5 bg-blue-500 rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 text-white">
-                                        <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-3.946-4.654a.75.75 0 01.042 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06l1.47 1.47 2.97-2.97a.75.75 0 011.06-.042z" clipRule="evenodd" />
-                                    </svg>
-                                </span>
-                            )}
-                        </h2>
-                        <span className="w-2 h-2 bg-green-500 rounded-full ml-1" />
+                        <h2 className="font-bold text-lg text-white">{otherUser.name}</h2>
                     </div>
 
                     {/* Messages Area */}
                     <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
                         {messages.map((msg) => (
-                            <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[75%] rounded-2xl px-5 py-3 ${msg.isMe
+                            <div key={msg.id} className={`flex ${msg.senderId === session?.user?.id ? 'justify-end' : 'justify-start'}`}>
+                                <div className={`max-w-[75%] rounded-2xl px-5 py-3 ${msg.senderId === session?.user?.id
                                     ? 'bg-rose-600 text-white rounded-br-none'
                                     : 'bg-slate-700/50 text-slate-100 rounded-bl-none'
                                     }`}>
                                     {msg.text && <p>{msg.text}</p>}
                                     {msg.image && (
-                                        <div className="relative w-64 h-48 mt-2 rounded-lg overflow-hidden border border-white/10">
+                                        <div className="relative w-64 h-48 mt-2 rounded-lg overflow-hidden">
                                             <Image src={msg.image} alt="Sent image" fill className="object-cover" />
                                         </div>
                                     )}
-                                    <p className={`text-[10px] mt-1 opacity-70 ${msg.isMe ? 'text-rose-200' : 'text-slate-400'}`}>
-                                        {msg.time}
-                                    </p>
                                 </div>
                             </div>
                         ))}
+                        <div ref={messagesEndRef} />
                     </div>
 
                     {/* Input Area */}
-                    <div className="px-6 py-4 border-t border-slate-700/50 flex flex-col gap-2 relative bg-slate-950 md:bg-transparent">
-                        {showGameMenu && (
-                            <div className="absolute bottom-20 left-4 glass-panel p-2 shadow-2xl border border-white/10 animate-in slide-in-from-bottom-4 duration-300 z-40">
-                                <div className="flex flex-col gap-1 min-w-[160px]">
-                                    <button
-                                        onClick={() => { setActiveGame('trivia'); setShowGameMenu(false); }}
-                                        className="flex items-center gap-3 p-3 rounded-xl hover:bg-rose-500/10 hover:text-rose-400 transition-all text-sm font-medium text-slate-300"
-                                    >
-                                        <div className="w-8 h-8 rounded-lg bg-rose-500/20 flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-rose-400">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-                                            </svg>
-                                        </div>
-                                        Tether Trivia
-                                    </button>
-                                    <button
-                                        onClick={() => { setActiveGame('tictactoe'); setShowGameMenu(false); }}
-                                        className="flex items-center gap-3 p-3 rounded-xl hover:bg-amber-500/10 hover:text-amber-400 transition-all text-sm font-medium text-slate-300"
-                                    >
-                                        <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-amber-500">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                        </div>
-                                        Tic-Tac-Toe
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-
-                        <form onSubmit={handleSend} className="flex gap-2">
-                             <button
-                                type="button"
-                                onClick={() => setShowGameMenu(!showGameMenu)}
-                                className={`w-12 h-12 rounded-full border flex flex-shrink-0 items-center justify-center transition-all ${showGameMenu ? 'bg-rose-600 border-rose-500 shadow-lg shadow-rose-500/20' : 'bg-slate-800 border-slate-700 hover:bg-slate-700'}`}
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 ${showGameMenu ? 'text-white' : 'text-slate-400'}`}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                                </svg>
-                            </button>
-                            <button
-                                type="button"
-                                onClick={sendImage}
-                                className="w-12 h-12 rounded-full flex-shrink-0 bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-slate-700 transition-colors"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-slate-400">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                                </svg>
-                            </button>
-                            <input
-                                type="text"
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                placeholder="Type a message..."
-                                className="flex-1 min-w-0 bg-slate-800/50 border border-slate-700 rounded-full px-4 md:px-6 py-3 focus:outline-none focus:border-rose-500 transition-colors text-white"
-                            />
-                            <button type="submit" className="btn-primary rounded-full w-12 h-12 flex-shrink-0 flex items-center justify-center p-0 shadow-lg shadow-rose-500/20 active:scale-95 transition-all text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 transform translate-x-0.5 -translate-y-0.5">
-                                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
+                    <form onSubmit={handleSend} className="px-6 py-4 border-t border-slate-700/50 flex gap-2 bg-slate-950 md:bg-transparent">
+                        <input
+                            type="text"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder="Type a message..."
+                            className="flex-1 bg-slate-800/50 border border-slate-700 rounded-full px-6 py-3 focus:outline-none focus:border-rose-500 text-white"
+                        />
+                        <button type="submit" className="btn-primary rounded-full w-12 h-12 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
             ) : (
-                <div className="hidden md:flex flex-1 items-center justify-center bg-white/5 backdrop-blur-sm border-l border-white/5">
+                <div className="hidden md:flex flex-1 items-center justify-center bg-white/5 border-l border-white/5">
                     <div className="text-center space-y-4">
-                        <div className="w-20 h-20 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto border border-rose-500/20">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 text-rose-400">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-semibold text-slate-200">Select a message</h3>
-                            <p className="text-slate-500 text-sm">Choose from your existing conversations to start chatting.</p>
-                        </div>
+                        <h3 className="text-xl font-semibold text-slate-200">Select a message</h3>
+                        <p className="text-slate-500 text-sm">Start a conversation with your matches.</p>
                     </div>
                 </div>
-            )}
-
-            {/* Games Overlay */}
-            {activeGame === 'trivia' && (
-                <TriviaGame
-                    onClose={() => setActiveGame(null)}
-                    onComplete={(answers) => {
-                        const gameMsg = {
-                            id: `game-${Date.now()}`,
-                            sender: 'You',
-                            text: `🎮 I completed Tether Trivia! Answers: ${answers.slice(0, 2).join(', ')}...`,
-                            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                            isMe: true,
-                        };
-                        setMessages([...messages, gameMsg]);
-                    }}
-                />
-            )}
-            {activeGame === 'tictactoe' && (
-                <TicTacToe
-                    onClose={() => setActiveGame(null)}
-                    onComplete={(result) => {
-                        const gameMsg = {
-                            id: `game-${Date.now()}`,
-                            sender: 'You',
-                            text: `🎲 Played Tic-Tac-Toe: ${result}`,
-                            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                            isMe: true,
-                        };
-                        setMessages([...messages, gameMsg]);
-                    }}
-                />
             )}
         </div>
     );

@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import Image from 'next/image';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
 
@@ -22,7 +22,8 @@ interface ProfileModalProps {
 }
 
 export default function ProfileModal({ profile, isOpen, onClose }: ProfileModalProps) {
-    const { isLoggedIn } = useAuth();
+    const { status } = useSession();
+    const isLoggedIn = status === 'authenticated';
     const { showToast } = useToast();
     const router = useRouter();
 

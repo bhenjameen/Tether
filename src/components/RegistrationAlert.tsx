@@ -1,17 +1,33 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-const MOCK_NAMES = ['Amina', 'Tunde', 'Jessica', 'David', 'Sarah', 'Michael', 'Amara', 'Emeka'];
-
 export default function RegistrationAlert() {
     const [alert, setAlert] = useState<{ name: string; visible: boolean }>({ name: '', visible: false });
+    const [profiles, setProfiles] = useState<any[]>([]);
 
     const closeAlert = () => setAlert(prev => ({ ...prev, visible: false }));
 
     useEffect(() => {
+        const fetchProfiles = async () => {
+            try {
+                const response = await fetch('/api/profiles');
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    setProfiles(data);
+                }
+            } catch (error) {
+                console.error('Failed to fetch profiles for alerts');
+            }
+        };
+        fetchProfiles();
+    }, []);
+
+    useEffect(() => {
+        if (profiles.length === 0) return;
+
         const triggerAlert = () => {
-            const randomName = MOCK_NAMES[Math.floor(Math.random() * MOCK_NAMES.length)];
-            setAlert({ name: randomName, visible: true });
+            const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
+            setAlert({ name: randomProfile.name.split(' ')[0], visible: true });
 
             setTimeout(() => {
                 setAlert(prev => ({ ...prev, visible: false }));
@@ -19,19 +35,19 @@ export default function RegistrationAlert() {
         };
 
         const interval = setInterval(() => {
-            if (Math.random() > 0.5) {
+            if (Math.random() > 0.4) {
                 triggerAlert();
             }
-        }, 8000);
+        }, 12000);
 
-        // Initial alert
-        const initialTimer = setTimeout(triggerAlert, 2000);
+        // Initial alert after a delay
+        const initialTimer = setTimeout(triggerAlert, 4000);
 
         return () => {
             clearInterval(interval);
             clearTimeout(initialTimer);
         };
-    }, []);
+    }, [profiles]);
 
     if (!alert.visible) return null;
 

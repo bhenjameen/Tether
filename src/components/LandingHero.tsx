@@ -1,6 +1,11 @@
+"use client";
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 export default function LandingHero() {
+    const { status } = useSession();
+    const isLoggedIn = status === 'authenticated';
+
     return (
         <div className="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden py-32">
             {/* Background decoration */}
@@ -21,17 +26,19 @@ export default function LandingHero() {
             </h1>
 
             <p className="text-base md:text-xl text-slate-300 max-w-2xl mb-12 leading-relaxed md:px-0">
-                Experience a premium dating platform designed for real connections.
+                Experience a premium dating platform designed for real connections. 
                 Better features, better matches, better conversations.
             </p>
 
             <div className="flex flex-col md:flex-row gap-6">
-                <Link href="/register" className="btn-primary text-lg px-8 py-3 shadow-lg shadow-rose-500/25">
-                    Start Connecting Now
+                <Link href={isLoggedIn ? "/discover" : "/register"} className="btn-primary text-lg px-8 py-3 shadow-lg shadow-rose-500/25">
+                    {isLoggedIn ? "Discover Your Matches" : "Start Connecting Now"}
                 </Link>
-                <Link href="/discover" className="px-8 py-3 rounded-full border border-slate-700 hover:bg-white/5 transition-all text-lg font-medium">
-                    Browse Singles
-                </Link>
+                {!isLoggedIn && (
+                    <Link href="/discover" className="px-8 py-3 rounded-full border border-slate-700 hover:bg-white/5 transition-all text-lg font-medium">
+                        Browse Singles
+                    </Link>
+                )}
             </div>
 
             <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl w-full">

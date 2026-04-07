@@ -1,10 +1,12 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 
 export default function Footer() {
-    const { isLoggedIn, isLoading } = useAuth();
+    const { status } = useSession();
+    const isLoggedIn = status === 'authenticated';
+    const isLoading = status === 'loading';
 
     // Do not show footer if user is logged in or during initial auth check
     if (isLoggedIn || isLoading) return null;

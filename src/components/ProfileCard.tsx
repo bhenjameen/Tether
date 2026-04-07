@@ -1,6 +1,6 @@
 "use client";
 import Image from 'next/image';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
 
@@ -16,7 +16,8 @@ interface ProfileProps {
 }
 
 export default function ProfileCard({ profile }: { profile: ProfileProps }) {
-    const { isLoggedIn } = useAuth();
+    const { status } = useSession();
+    const isLoggedIn = status === 'authenticated';
     const { showToast } = useToast();
     const router = useRouter();
 
@@ -82,7 +83,7 @@ export default function ProfileCard({ profile }: { profile: ProfileProps }) {
                             </svg>
                         </button>
                         <button
-                            onClick={(e) => handleProtectedAction(e, () => router.push(`/profile/${profile.name.toLowerCase().replace(/ /g, '-')}`))}
+                            onClick={(e) => handleProtectedAction(e, () => router.push(`/profile/${profile.id}`))}
                             className="flex flex-col items-center justify-center bg-white/5 hover:bg-white/10 p-2 rounded-xl transition-all border border-white/10 group/btn active:scale-90" title="Profile"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-amber-500 group-hover/btn:text-white">

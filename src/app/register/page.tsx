@@ -5,7 +5,6 @@ import Navbar from '@/components/Navbar';
 import Stories from '@/components/Stories';
 import ProfileCard from '@/components/ProfileCard';
 import RegistrationAlert from '@/components/RegistrationAlert';
-import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 
 const BACKGROUND_PROFILES = [
@@ -24,7 +23,6 @@ const BACKGROUND_PROFILES = [
 ];
 
 export default function RegisterPage() {
-    const { isLoggedIn } = useAuth();
     const router = useRouter();
     const [formData, setFormData] = useState({
         fullName: '',
@@ -36,12 +34,6 @@ export default function RegisterPage() {
     const [error, setError] = useState<string | null>(null);
     const [shouldShake, setShouldShake] = useState(false);
 
-    // Redirect if already logged in
-    useEffect(() => {
-        if (isLoggedIn) {
-            router.push('/');
-        }
-    }, [isLoggedIn, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -89,8 +81,6 @@ export default function RegisterPage() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Don't render the page if already logged in
-    if (isLoggedIn) return null;
 
     return (
         <div className="min-h-screen flex flex-col relative">

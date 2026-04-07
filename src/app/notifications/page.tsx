@@ -1,103 +1,76 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { pusherClient } from '@/lib/pusher';
 
 interface Notification {
     id: string;
     type: 'match' | 'like' | 'message' | 'system';
-    user: {
-        name: string;
-        image: string;
-    };
     message: string;
-    createdAt: number; // Timestamp in ms
+    createdAt: string;
     isRead: boolean;
 }
 
-const MOCK_NOTIFICATIONS: Notification[] = [
-    {
-        id: '1',
-        type: 'match',
-        user: { name: 'Sarah', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80' },
-        message: 'matched with you! Send a message to start the conversation.',
-        createdAt: Date.now() - 5000,
-        isRead: false
-    },
-    {
-        id: '2',
-        type: 'like',
-        user: { name: 'Jessica', image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&q=80' },
-        message: 'liked your profile. Don\'t keep them waiting!',
-        createdAt: Date.now() - 15000,
-        isRead: false
-    },
-    {
-        id: '5',
-        type: 'like',
-        user: { name: 'Amara', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80' },
-        message: 'liked one of your photos. Looking good!',
-        createdAt: Date.now() - 30000,
-        isRead: false
-    },
-    {
-        id: '6',
-        type: 'system',
-        user: { name: 'Alex', image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&q=80' },
-        message: 'viewed your profile recently. Explore their interests!',
-        createdAt: Date.now() - 40000,
-        isRead: true
-    },
-    {
-        id: '3',
-        type: 'message',
-        user: { name: 'Michael', image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&q=80' },
-        message: 'sent you a new message about your weekend plans.',
-        createdAt: Date.now() - 45000,
-        isRead: true
-    },
-    {
-        id: '4',
-        type: 'system',
-        user: { name: 'Team', image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80' },
-        message: 'Welcome to the premium club! Your profile is now boosted.',
-        createdAt: Date.now() - 120000,
-        isRead: true
-    },
-    {
-        id: '7',
-        type: 'match',
-        user: { name: 'Emma', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&q=80' },
-        message: 'matched with you! Check out her favorite music.',
-        createdAt: Date.now() - 180000,
-        isRead: true
-    }
-];
-
 export default function NotificationsPage() {
-    const { isLoggedIn } = useAuth();
+    const { data: session, status } = useSession();
     const router = useRouter();
-    // Filter out message notifications as requested
-    const [notifications, setNotifications] = useState<Notification[]>(
-        MOCK_NOTIFICATIONS.filter(n => n.type !== 'message')
-    );
-    // Remove real-time timer, calculate once on load
-    const [currentTime] = useState(Date.now());
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
+    // Initial Fetch
     useEffect(() => {
-        if (!isLoggedIn) {
+        if (status === 'unauthenticated') {
             router.push('/login');
+            return;
         }
-    }, [isLoggedIn, router]);
 
-    const markAllAsRead = () => {
-        setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+        if (status === 'authenticated') {
+            fetchNotifications();
+            
+            // Pusher Realtime Listener
+            const channel = pusherClient.subscribe(`user-${session?.user?.id}`);
+            channel.bind('notification', (newNotification: Notification) => {
+                setNotifications(prev => [newNotification, ...prev]);
+                // Optional: add a sound effect or toast here
+            });
+
+            return () => {
+                pusherClient.unsubscribe(`user-${session?.user?.id}`);
+            };
+        }
+    }, [status, session, router]);
+
+    const fetchNotifications = async () => {
+        try {
+            const response = await fetch('/api/notifications');
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                setNotifications(data);
+            }
+        } catch (error) {
+            console.error('Failed to fetch notifications');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const formatTimeAgo = (timestamp: number) => {
-        const seconds = Math.floor((currentTime - timestamp) / 1000);
+    const markAllAsRead = async () => {
+        try {
+            await fetch('/api/notifications', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: 'all' }),
+            });
+            setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+        } catch (error) {
+            console.error('Failed to mark as read');
+        }
+    };
+
+    const formatTimeAgo = (dateString: string) => {
+        const seconds = Math.floor((new Date().getTime() - new Date(dateString).getTime()) / 1000);
         if (seconds < 60) return `${seconds}s ago`;
         const minutes = Math.floor(seconds / 60);
         if (minutes < 60) return `${minutes}m ago`;
@@ -105,7 +78,9 @@ export default function NotificationsPage() {
         return `${hours}h ago`;
     };
 
-    if (!isLoggedIn) return null;
+    if (status === 'loading' || isLoading) {
+        return <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">Loading...</div>;
+    }
 
     return (
         <main className="min-h-screen bg-slate-950 pt-32 pb-12 px-6">
@@ -133,19 +108,9 @@ export default function NotificationsPage() {
                                 key={notification.id}
                                 className={`glass-panel p-4 flex gap-4 items-start transition-all hover:border-rose-500/30 group ${!notification.isRead ? 'bg-rose-500/5 border-rose-500/20' : ''}`}
                             >
-                                <div className="relative">
-                                    <img
-                                        src={notification.user.image}
-                                        alt={notification.user.name}
-                                        className="w-12 h-12 rounded-full object-cover border-2 border-slate-800"
-                                    />
-                                    {!notification.isRead && (
-                                        <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-rose-500 rounded-full border-2 border-slate-950 shadow-lg" />
-                                    )}
-                                </div>
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm text-slate-200 leading-relaxed">
-                                        <span className="font-bold text-white">{notification.user.name}</span> {notification.message}
+                                        {notification.message}
                                     </p>
                                     <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500 mt-2 block tabular-nums">
                                         {formatTimeAgo(notification.createdAt)}

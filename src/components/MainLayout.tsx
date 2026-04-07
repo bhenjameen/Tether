@@ -1,13 +1,15 @@
 "use client";
 import React from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
 
 interface MainLayoutProps {
     children: React.ReactNode;
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
-    const { isLoggedIn, isLoading } = useAuth();
+    const { status } = useSession();
+    const isLoggedIn = status === 'authenticated';
+    const isLoading = status === 'loading';
 
     // Calculate bottom padding for mobile when logged in
     // pb-32 (128px) ensures content sits comfortably above the ~70px mobile nav

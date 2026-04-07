@@ -8,64 +8,58 @@ export async function POST(request: Request) {
 
         if (!email || !password || !fullName) {
             return NextResponse.json(
-                { error: 'Missing required fields' },
+                { error: 'Please provide all required fields' },
                 { status: 400 }
             );
         }
 
-        // Check if user already exists
+        // Check for existing user
         const existingUser = await prisma.user.findUnique({
-            where: { email },
+          where: { email },
         });
 
         if (existingUser) {
-            return NextResponse.json(
-                { error: 'User already exists' },
-                { status: 400 }
-            );
+          return NextResponse.json(
+            { error: "User already exists with this email" },
+            { status: 400 }
+          );
         }
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        // Create user
+        // Create user and initial profile
         const user = await prisma.user.create({
             data: {
                 email,
                 password: hashedPassword,
                 fullName,
+                profile: {
+                  create: {
+                    bio: "New member of the Tether family",
+                  }
+                }
             },
-            select: {
-                id: true,
-                email: true,
-                fullName: true,
-                createdAt: true,
+            include: {
+              profile: true
             }
         });
 
         return NextResponse.json(
-            { message: 'User created successfully', user },
+            { 
+              message: 'Account created successfully!', 
+              user: {
+                id: user.id,
+                email: user.email,
+                fullName: user.fullName
+              } 
+            },
             { status: 201 }
         );
     } catch (error: any) {
         console.error('Registration error:', error);
-
-        if (error.code === 'P2021') {
-            return NextResponse.json(
-                { error: 'Database tables not found. Please ensure you have run "npx prisma db push".' },
-                { status: 500 }
-            );
-        }
-
-        if (error.code === 'P2024' || error.message?.includes('Can\'t reach database server')) {
-            return NextResponse.json(
-                { error: 'Database connection failed. Please ensure your Vercel database is connected.' },
-                { status: 503 }
-            );
-        }
-
         return NextResponse.json(
-            { error: `Registration error: ${error.message || 'Unknown error'}. Please check your configuration.` },
+            { error: `Registration error: ${error.message || 'Unknown error'}.` },
             { status: 500 }
         );
     }

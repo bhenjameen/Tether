@@ -3,34 +3,33 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { useSession } from 'next-auth/react';
 import Pusher from 'pusher-js';
 
-interface MessageContextType {
+interface NotificationContextType {
     unreadCount: number;
     setUnreadCount: (count: number) => void;
-    incrementUnread: () => void;
     decrementUnread: () => void;
     markAllAsRead: () => void;
 }
 
-const MessageContext = createContext<MessageContextType | undefined>(undefined);
+const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
-export function MessageProvider({ children }: { children: ReactNode }) {
+export function NotificationProvider({ children }: { children: ReactNode }) {
     const { data: session } = useSession();
     const [unreadCount, setUnreadCount] = useState(0);
 
     useEffect(() => {
-        if (!session?.user?.id) return;
+        if (!session?.user?.email) return;
 
         // Fetch initial unread count
         const fetchUnread = async () => {
             try {
-                const response = await fetch('/api/messages');
-                const conversations = await response.json();
-                if (Array.isArray(conversations)) {
-                    const count = conversations.filter((c: any) => c.unread).length;
+                const response = await fetch('/api/notifications');
+                const data = await response.json();
+                if (data.notifications) {
+                    const count = data.notifications.filter((n: any) => !n.read).length;
                     setUnreadCount(count);
                 }
             } catch (error) {
-                console.error('Failed to fetch initial message count');
+                console.error('Failed to fetch initial notification count');
             }
         };
 
@@ -41,8 +40,11 @@ export function MessageProvider({ children }: { children: ReactNode }) {
             cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
         });
 
-        const channel = pusher.subscribe(`user-${session.user.id}`);
-        channel.bind('new-message', () => {
+        // Use email as channel name like in notifications page
+        const channelName = `user-${session.user.email.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const channel = pusher.subscribe(channelName);
+        
+        channel.bind('new-notification', () => {
             setUnreadCount(prev => prev + 1);
         });
 
@@ -51,29 +53,27 @@ export function MessageProvider({ children }: { children: ReactNode }) {
             channel.unsubscribe();
             pusher.disconnect();
         };
-    }, [session?.user?.id]);
+    }, [session?.user?.email]);
 
-    const incrementUnread = () => setUnreadCount(prev => prev + 1);
     const decrementUnread = () => setUnreadCount(prev => Math.max(0, prev - 1));
     const markAllAsRead = () => setUnreadCount(0);
 
     return (
-        <MessageContext.Provider value={{
+        <NotificationContext.Provider value={{
             unreadCount,
             setUnreadCount,
-            incrementUnread,
             decrementUnread,
             markAllAsRead
         }}>
             {children}
-        </MessageContext.Provider>
+        </NotificationContext.Provider>
     );
 }
 
-export function useMessages() {
-    const context = useContext(MessageContext);
+export function useNotifications() {
+    const context = useContext(NotificationContext);
     if (context === undefined) {
-        throw new Error('useMessages must be used within a MessageProvider');
+        throw new Error('useNotifications must be used within a NotificationProvider');
     }
     return context;
 }
