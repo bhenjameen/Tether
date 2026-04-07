@@ -4,8 +4,9 @@ import prisma from "@/lib/prisma";
 
 export async function GET(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -15,7 +16,7 @@ export async function GET(
   try {
     const messages = await prisma.message.findMany({
       where: {
-        conversationId: params.id
+        conversationId: id
       },
       orderBy: {
         createdAt: "asc"

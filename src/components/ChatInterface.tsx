@@ -4,7 +4,7 @@ import Image from 'next/image';
 import TriviaGame from './games/TriviaGame';
 import TicTacToe from './games/TicTacToe';
 import { useSession } from 'next-auth/react';
-import { pusherClient } from '@/lib/pusher';
+import { pusherClient } from '@/lib/pusher-client';
 
 interface Message {
     id: string;
@@ -40,7 +40,7 @@ export default function ChatInterface() {
 
     // Fetch Messages when chat selected + Subscribe to Pusher
     useEffect(() => {
-        if (!selectedChatId) return;
+        if (!selectedChatId || !pusherClient) return;
 
         fetchMessages(selectedChatId);
 

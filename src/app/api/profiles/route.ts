@@ -24,17 +24,25 @@ export async function GET() {
       }
     });
 
+    // helper to calculate age
+    const calculateAge = (birthday: Date | null) => {
+      if (!birthday) return 21;
+      const ageDifMs = Date.now() - birthday.getTime();
+      const ageDate = new Date(ageDifMs);
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
+    };
+
     // Map to the format the UI expects
     const formattedProfiles = profiles.map((user: any) => ({
       id: user.id,
       name: user.fullName || "Tether User",
-      age: user.profile?.age || 21,
+      age: calculateAge(user.profile?.birthday || null),
       location: user.profile?.location || "Nigeria",
       gender: user.profile?.gender || "not specified",
-      image: user.profile?.image || "https://via.placeholder.com/500",
+      image: user.profile?.images?.[0] || "https://via.placeholder.com/500",
       bio: user.profile?.bio || "No bio yet.",
-      isVerified: user.profile?.isVerified || false,
-      hasPhoto: !!user.profile?.image
+      isVerified: false,
+      hasPhoto: !!(user.profile?.images?.length > 0)
     }));
 
     return NextResponse.json(formattedProfiles);

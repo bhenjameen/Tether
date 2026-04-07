@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         });
 
         // Verify user and password
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        if (!user || !user.password || !(await bcrypt.compare(password, user.password))) {
             return NextResponse.json(
                 { error: 'Wrong Username or Password. Try again' },
                 { status: 401 }

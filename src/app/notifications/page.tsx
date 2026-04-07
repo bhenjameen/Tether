@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { pusherClient } from '@/lib/pusher';
+import { pusherClient } from '@/lib/pusher-client';
 
 interface Notification {
     id: string;
@@ -30,14 +30,18 @@ export default function NotificationsPage() {
             fetchNotifications();
             
             // Pusher Realtime Listener
-            const channel = pusherClient.subscribe(`user-${session?.user?.id}`);
-            channel.bind('notification', (newNotification: Notification) => {
-                setNotifications(prev => [newNotification, ...prev]);
-                // Optional: add a sound effect or toast here
-            });
+            if (pusherClient) {
+                const channel = pusherClient.subscribe(`user-${session?.user?.id}`);
+                channel.bind('notification', (newNotification: Notification) => {
+                    setNotifications(prev => [newNotification, ...prev]);
+                    // Optional: add a sound effect or toast here
+                });
+            }
 
             return () => {
-                pusherClient.unsubscribe(`user-${session?.user?.id}`);
+                if (pusherClient) {
+                    pusherClient.unsubscribe(`user-${session?.user?.id}`);
+                }
             };
         }
     }, [status, session, router]);
