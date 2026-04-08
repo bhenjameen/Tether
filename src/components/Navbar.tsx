@@ -34,7 +34,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-3">
                     <Link href="/" className="flex items-center gap-2 group">
                         <img
-                            src="/icon.png"
+                            src="/tether-logo.png"
                             alt="Tether Logo"
                             className="w-10 h-10 object-contain group-hover:scale-110 transition-transform duration-300"
                         />
