@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   title: 'Tether - Connect & Chat',
   description: 'A premium dating experience better than the rest.',
   icons: {
-    icon: '/logo.png',
-    apple: '/logo.png',
+    icon: '/icon.png',
+    apple: '/icon.png',
   },
 }
 

@@ -16,7 +16,7 @@ export default function LandingHero() {
             <div className="mb-8 relative">
                 <div className="absolute inset-0 bg-rose-500/20 blur-3xl rounded-full scale-150 -z-10" />
                 <img
-                    src="/logo.png"
+                    src="/icon.png"
                     alt="Tether Logo"
                     className="w-24 h-24 md:w-32 md:h-32 object-contain animate-float drop-shadow-2xl"
                 />
