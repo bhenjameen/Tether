@@ -33,11 +33,15 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
                 <div className="flex items-center gap-3">
                     <Link href="/" className="flex items-center gap-2 group">
-                        <img
-                            src="/logo.png"
-                            alt="Tether Logo"
-                            className="w-10 h-10 object-contain group-hover:scale-110 transition-transform duration-300"
-                        />
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="url(#tether-gradient)" className="w-10 h-10 group-hover:scale-110 transition-transform duration-300">
+                            <defs>
+                                <linearGradient id="tether-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#fb7185" />
+                                    <stop offset="100%" stopColor="#fbbf24" />
+                                </linearGradient>
+                            </defs>
+                            <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z" clipRule="evenodd" />
+                        </svg>
                         <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400">
                             Tether
                         </span>
