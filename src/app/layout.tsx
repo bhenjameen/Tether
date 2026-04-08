@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import './globals.css'
 // Triggering deployment for mobile alignment standardization - 2026-03-12-2312
 

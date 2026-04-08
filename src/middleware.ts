@@ -1,12 +1,12 @@
-import authConfig from "./auth.config";
-import NextAuth from "next-auth";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
-
-const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const { nextUrl } = req;
+  const sessionToken = req.cookies.get("authjs.session-token") || req.cookies.get("__Secure-authjs.session-token");
+  
+  console.log(`[Middleware] Path: ${nextUrl.pathname}, LoggedIn: ${isLoggedIn}, CookiePresent: ${!!sessionToken}`);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
   const isPublicRoute = ["/", "/login", "/register", "/reset-password", "/forgot-password"].includes(nextUrl.pathname);
