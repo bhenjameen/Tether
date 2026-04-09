@@ -129,7 +129,7 @@ function DiscoveryPageContent() {
     return (
         <div className="min-h-screen">
             <Navbar />
-            <div className="pt-32 px-6 max-w-7xl mx-auto">
+            <div className="pt-32 pb-24 px-6 max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
                     <div>
                         <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400">Discover</h1>
