@@ -17,7 +17,14 @@ export default function MobileNav() {
     const { isSearchOpen, setIsSearchOpen, isMenuOpen, setIsMenuOpen } = useUI();
     const pathname = usePathname();
 
-    if (!isLoggedIn) return null;
+    if (!isLoggedIn) {
+        return (
+            <>
+                <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+                <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+            </>
+        );
+    }
 
     const navItems = [
         {
