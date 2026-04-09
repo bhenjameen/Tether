@@ -12,7 +12,7 @@ export default auth((req) => {
   console.log(`[Middleware] Path: ${nextUrl.pathname}, LoggedIn: ${isLoggedIn}, CookiePresent: ${!!sessionToken}`);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
-  const isPublicRoute = ["/", "/login", "/register", "/reset-password", "/forgot-password"].includes(nextUrl.pathname);
+  const isPublicRoute = ["/", "/discover", "/login", "/register", "/reset-password", "/forgot-password"].includes(nextUrl.pathname);
   const isAuthRoute = ["/login", "/register"].includes(nextUrl.pathname);
 
   if (isApiAuthRoute) {
