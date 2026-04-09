@@ -108,8 +108,8 @@ export default function LoginPage() {
 
                         {/* Right Side: Auth Pane (35%) */}
                         <div className="w-full lg:w-[35%] px-6 py-4 sm:p-6 lg:pt-0 lg:px-6 lg:pb-6 flex flex-col items-center justify-start min-h-[calc(100vh-5rem)] lg:min-h-0">
-                            {/* Sticky Wrapper for Desktop - centers math physically to viewport and sticks instantly */}
-                            <div className="relative w-full lg:sticky lg:top-[50vh] lg:-translate-y-1/2 lg:mt-[calc(50vh-8rem)] lg:w-full lg:px-8 flex flex-col items-center justify-center">
+                            {/* Sticky Wrapper for Desktop - centers math physically below nav space and sticks instantly */}
+                            <div className="relative w-full lg:sticky lg:top-[calc(50vh+4rem)] lg:-translate-y-1/2 lg:mt-[calc(50vh-4rem)] lg:w-full lg:px-8 flex flex-col items-center justify-center">
                                 <div className={`w-full max-w-[420px] lg:max-w-[320px] glass-panel p-8 lg:px-6 lg:py-4 shadow-2xl border border-white/10 transition-all duration-300 ${shouldShake ? 'animate-shake border-rose-500/50 shadow-rose-500/10' : ''} ${error ? 'scale-[1.02]' : 'scale-100'}`}>
                                     <div className="text-center mb-10 lg:mb-8">
                                         <h1 className="text-3xl lg:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-400 mb-2">
