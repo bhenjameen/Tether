@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma, { getResolvedDatabaseUrl } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 export async function GET() {
@@ -60,7 +60,7 @@ export async function GET() {
         recommendation: !dbConnected
             ? 'Database connection failed. Ensure POSTGRES_PRISMA_URL or DATABASE_URL is set in Vercel project settings.'
             : userCount === 0
-            ? 'Database is connected, but has 0 users! Use POST to /api/auth/diagnostic to seed a test account or register at /register.'
+            ? 'Database is connected, but has 0 users! Use POST to /api/diagnostic to seed a test account or register at /register.'
             : 'Database is connected and accounts exist. Check the users list above for your registered email.',
     });
 }

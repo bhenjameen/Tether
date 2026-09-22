@@ -38,7 +38,7 @@ function LoginContent() {
 
     useEffect(() => {
         if (queryError === 'Configuration') {
-            setError('Server configuration check required. Please verify database connection or run /api/auth/diagnostic.');
+            setError('Server configuration check required. Please verify database connection or run /api/diagnostic.');
         } else if (queryError === 'CredentialsSignin') {
             setError('Invalid email or password. Please try again.');
         }
@@ -226,7 +226,7 @@ function LoginContent() {
 
                                     <div className="mt-6 pt-3 border-t border-white/5 text-center">
                                         <Link
-                                            href="/api/auth/diagnostic"
+                                            href="/api/diagnostic"
                                             target="_blank"
                                             className="text-[11px] text-slate-500 hover:text-rose-400 underline transition-colors"
                                         >
