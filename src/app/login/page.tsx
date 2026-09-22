@@ -223,16 +223,6 @@ function LoginContent() {
                                             Join Now
                                         </Link>
                                     </p>
-
-                                    <div className="mt-6 pt-3 border-t border-white/5 text-center">
-                                        <Link
-                                            href="/api/diagnostic"
-                                            target="_blank"
-                                            className="text-[11px] text-slate-500 hover:text-rose-400 underline transition-colors"
-                                        >
-                                            Database & Auth Diagnostics
-                                        </Link>
-                                    </div>
                                 </div>
                             </div>
                         </div>
