@@ -13,9 +13,11 @@ export async function POST(request: Request) {
             );
         }
 
+        const normalizedEmail = email.trim().toLowerCase();
+
         // Check for existing user
         const existingUser = await prisma.user.findUnique({
-          where: { email },
+          where: { email: normalizedEmail },
         });
 
         if (existingUser) {
@@ -31,9 +33,9 @@ export async function POST(request: Request) {
         // Create user and initial profile
         const user = await prisma.user.create({
             data: {
-                email,
+                email: normalizedEmail,
                 password: hashedPassword,
-                fullName,
+                fullName: fullName.trim(),
                 profile: {
                   create: {
                     bio: "New member of the Tether family",

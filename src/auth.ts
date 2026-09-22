@@ -11,6 +11,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt" },
   pages: {
     signIn: "/login",
+    error: "/login",
   },
   callbacks: {
     async session({ session, token }) {
@@ -28,10 +29,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   ...authConfig,
   providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
+    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+      ? [
+          Google({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+          }),
+        ]
+      : []),
     Credentials({
       name: "Credentials",
       credentials: {
@@ -39,27 +44,44 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            return null;
+          }
 
-        const user = await prisma.user.findUnique({
-          where: { email: String(credentials.email) },
-        });
+          const email = String(credentials.email).trim().toLowerCase();
+          const password = String(credentials.password);
 
-        if (!user || !user.password) return null;
+          const user = await prisma.user.findUnique({
+            where: { email },
+          });
 
-        const isPasswordCorrect = await bcrypt.compare(
-          String(credentials.password),
-          user.password
-        );
+          if (!user || !user.password) {
+            console.warn(`[Auth] Credentials rejected: no user found or password missing for ${email}`);
+            return null;
+          }
 
-        if (!isPasswordCorrect) return null;
+          const isPasswordCorrect = await bcrypt.compare(
+            password,
+            user.password
+          );
 
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.fullName,
-          image: user.image,
-        };
+          if (!isPasswordCorrect) {
+            console.warn(`[Auth] Credentials rejected: incorrect password for ${email}`);
+            return null;
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.fullName,
+            image: user.image,
+          };
+        } catch (error) {
+          console.error("[Auth] Database or bcrypt error during authorize:", error);
+          // Return null rather than throwing so NextAuth gracefully reports invalid credentials instead of crashing with Configuration error
+          return null;
+        }
       },
     }),
   ],

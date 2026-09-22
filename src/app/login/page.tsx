@@ -7,7 +7,7 @@ import Stories from '@/components/Stories';
 import ProfileCard from '@/components/ProfileCard';
 import RegistrationAlert from '@/components/RegistrationAlert';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const BACKGROUND_PROFILES = [
     { id: 'b1', name: 'Sarah', age: 24, location: 'Lagos', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&q=80', bio: 'Art enthusiast.', isVerified: true },
@@ -24,13 +24,25 @@ const BACKGROUND_PROFILES = [
     { id: 'b12', name: 'Alex', age: 28, location: 'Jos', image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=500&q=80', bio: 'Adventure seeker.' },
 ];
 
-export default function LoginPage() {
+function LoginContent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const queryError = searchParams.get('error');
+    const isRegistered = searchParams.get('registered') === 'true';
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [shouldShake, setShouldShake] = useState(false);
+
+    useEffect(() => {
+        if (queryError === 'Configuration') {
+            setError('Server configuration check required. Please verify database connection or run /api/auth/diagnostic.');
+        } else if (queryError === 'CredentialsSignin') {
+            setError('Invalid email or password. Please try again.');
+        }
+    }, [queryError]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -39,8 +51,9 @@ export default function LoginPage() {
         setShouldShake(false);
 
         try {
+            const normalizedEmail = email.trim().toLowerCase();
             const result = await signIn('credentials', {
-                email,
+                email: normalizedEmail,
                 password,
                 redirect: false,
             });
@@ -117,6 +130,17 @@ export default function LoginPage() {
                                         </h1>
                                         <p className="text-base lg:text-sm text-slate-400">Sign in to your account</p>
                                     </div>
+
+                                    {isRegistered && !error && (
+                                        <div className="mb-6 px-4 py-3 bg-emerald-500/10 backdrop-blur-md border border-emerald-500/20 rounded-2xl text-xs lg:text-[11px] text-emerald-300 flex items-center gap-3 animate-in fade-in zoom-in-95 duration-300">
+                                            <div className="flex-shrink-0 w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 text-emerald-400">
+                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                </svg>
+                                            </div>
+                                            <span className="leading-tight font-medium">Account created! You can now sign in below.</span>
+                                        </div>
+                                    )}
 
                                     {error && (
                                         <div className="mb-6 px-4 py-3 bg-rose-500/10 backdrop-blur-md border border-rose-500/20 rounded-2xl text-xs lg:text-[11px] text-rose-300 flex items-center gap-3 animate-in fade-in zoom-in-95 duration-300">
@@ -199,6 +223,16 @@ export default function LoginPage() {
                                             Join Now
                                         </Link>
                                     </p>
+
+                                    <div className="mt-6 pt-3 border-t border-white/5 text-center">
+                                        <Link
+                                            href="/api/auth/diagnostic"
+                                            target="_blank"
+                                            className="text-[11px] text-slate-500 hover:text-rose-400 underline transition-colors"
+                                        >
+                                            Database & Auth Diagnostics
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -210,3 +244,18 @@ export default function LoginPage() {
         </div>
     );
 }
+
+export default function LoginPage() {
+    return (
+        <React.Suspense
+            fallback={
+                <div className="min-h-screen bg-slate-950 flex items-center justify-center text-rose-400 text-sm">
+                    Loading Tether...
+                </div>
+            }
+        >
+            <LoginContent />
+        </React.Suspense>
+    );
+}
+
